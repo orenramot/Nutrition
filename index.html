@@ -465,19 +465,19 @@
 <header class="header">
   <div class="logo">מטבח <span>מאושר</span></div>
   <nav class="tabs" id="tabNav">
-    <button class="tab active" onclick="showTab('week',this)">תפריט שבועי</button>
-    <button class="tab" onclick="showTab('cookday',this)">יום הבישול</button>
+    <button class="tab active" onclick="showTab('pantry',this)">המזווה שלי</button>
+    <button class="tab" onclick="showTab('week',this)">תפריט שבועי</button>
     <button class="tab" onclick="showTab('sides',this)">הכנות בצד</button>
-    <button class="tab" onclick="showTab('pantry',this)">המזווה שלי</button>
-    <button class="tab" onclick="showTab('principles',this)">העקרונות שלי</button>
+    <button class="tab" onclick="showTab('cookday',this)">יום הבישול</button>
     <button class="tab" onclick="showTab('prep',this)">צ׳ק ליסט</button>
+    <button class="tab" onclick="showTab('principles',this)">העקרונות שלי</button>
   </nav>
 </header>
 
 <main class="content">
 
   <!-- WEEK -->
-  <div id="week" class="section active">
+  <div id="week" class="section">
     <div class="top-bar">
       <h2>תפריט שבועי</h2>
       <div class="btn-row">
@@ -504,7 +504,7 @@
   </div>
 
   <!-- PANTRY -->
-  <div id="pantry" class="section">
+  <div id="pantry" class="section active">
     <div class="top-bar">
       <h2>המזווה שלי</h2>
       <button class="btn" onclick="clearPantry()">אפס מזווה</button>
