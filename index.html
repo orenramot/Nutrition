@@ -1,0 +1,1110 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>מטבח מאושר</title>
+<link rel="manifest" href="manifest.json">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="מטבח מאושר">
+<link rel="apple-touch-icon" href="icon.png">
+<meta name="theme-color" content="#F7F5F0">
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F7F5F0;
+    --surface: #FFFFFF;
+    --surface2: #F0EDE6;
+    --border: rgba(0,0,0,0.10);
+    --border2: rgba(0,0,0,0.18);
+    --text: #1A1A18;
+    --text2: #5C5A54;
+    --text3: #9E9B93;
+    --green: #2D6A4F;
+    --green-light: #D8EDDF;
+    --green-mid: #95C9A6;
+    --amber: #7D4E24;
+    --amber-light: #FAEADA;
+    --blue: #1B4F72;
+    --blue-light: #D4E9F7;
+    --purple: #4A3A6B;
+    --purple-light: #EAE4F5;
+    --red: #8B2E2E;
+    --red-light: #F9E0E0;
+    --radius: 10px;
+    --radius-lg: 14px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Heebo', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    direction: rtl;
+  }
+
+  /* HEADER */
+  .header {
+    background: var(--surface);
+    border-bottom: 0.5px solid var(--border2);
+    padding: 0 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 56px;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+  }
+  .logo {
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+    color: var(--text);
+  }
+  .logo span { color: var(--green); }
+
+  /* TABS */
+  .tabs {
+    display: flex;
+    gap: 4px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab {
+    padding: 7px 14px;
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius);
+    background: transparent;
+    color: var(--text2);
+    cursor: pointer;
+    font-size: 13px;
+    font-family: 'Heebo', sans-serif;
+    white-space: nowrap;
+    transition: all 0.15s;
+  }
+  .tab:hover { background: var(--surface2); }
+  .tab.active {
+    background: var(--text);
+    color: #fff;
+    border-color: var(--text);
+    font-weight: 500;
+  }
+
+  /* LAYOUT */
+  .content { padding: 1.25rem; max-width: 1100px; margin: 0 auto; }
+
+  .section { display: none; }
+  .section.active { display: block; }
+
+  .top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+  .top-bar h2 { font-size: 16px; font-weight: 500; }
+
+  .btn {
+    padding: 7px 14px;
+    border: 0.5px solid var(--border2);
+    border-radius: var(--radius);
+    background: var(--surface);
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 500;
+    font-family: 'Heebo', sans-serif;
+    color: var(--text);
+    transition: background 0.12s;
+  }
+  .btn:hover { background: var(--surface2); }
+  .btn-green {
+    background: var(--green-light);
+    color: var(--green);
+    border-color: var(--green-mid);
+  }
+  .btn-green:hover { background: var(--green-mid); }
+  .btn-row { display: flex; gap: 8px; }
+
+  /* WEEK GRID */
+  .week-grid {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    gap: 6px;
+    margin-bottom: 0.5rem;
+  }
+  .day-col {
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 8px 6px;
+  }
+  .day-name {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--text2);
+    text-align: center;
+    margin-bottom: 6px;
+  }
+  .meal-label { font-size: 9px; color: var(--text3); margin-bottom: 2px; }
+  .meal-chip {
+    font-size: 10px;
+    background: var(--surface2);
+    border-radius: 5px;
+    padding: 4px 5px;
+    cursor: pointer;
+    color: var(--text);
+    border: 0.5px solid var(--border);
+    line-height: 1.3;
+    margin-bottom: 4px;
+    min-height: 26px;
+    display: flex;
+    align-items: center;
+    transition: border-color 0.12s;
+  }
+  .meal-chip:hover { border-color: var(--border2); }
+  .meal-chip.empty {
+    color: var(--text3);
+    border-style: dashed;
+    background: none;
+    justify-content: center;
+    font-style: italic;
+  }
+  .snack-chip {
+    font-size: 9px;
+    background: var(--purple-light);
+    border-radius: 4px;
+    padding: 3px 5px;
+    color: var(--purple);
+    border: 0.5px solid #C8BBE8;
+    cursor: pointer;
+    text-align: center;
+    margin-top: 3px;
+    transition: opacity 0.12s;
+  }
+  .snack-chip:hover { opacity: 0.8; }
+  .hint { font-size: 11px; color: var(--text3); margin-top: 6px; }
+
+  /* COOK DAY */
+  .cook-total {
+    background: var(--green-light);
+    border-radius: var(--radius);
+    padding: 10px 14px;
+    font-size: 13px;
+    color: var(--green);
+    font-weight: 500;
+    margin-bottom: 1.25rem;
+  }
+  .cook-timeline { position: relative; padding-right: 24px; }
+  .cook-timeline::before {
+    content: '';
+    position: absolute;
+    right: 8px; top: 6px; bottom: 6px;
+    width: 1px;
+    background: var(--border2);
+  }
+  .cook-block { position: relative; margin-bottom: 12px; }
+  .cook-block::before {
+    content: '';
+    position: absolute;
+    right: -19px; top: 8px;
+    width: 9px; height: 9px;
+    border-radius: 50%;
+    background: var(--surface);
+    border: 1.5px solid var(--border2);
+  }
+  .cook-block.active::before {
+    background: var(--green);
+    border-color: var(--green);
+  }
+  .cook-card {
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 10px 12px;
+    cursor: default;
+  }
+  .cook-card.clickable { cursor: pointer; }
+  .cook-card.clickable:hover { border-color: var(--border2); }
+  .cook-time { font-size: 10px; color: var(--green); font-weight: 500; margin-bottom: 2px; }
+  .cook-card h3 { font-size: 13px; font-weight: 500; margin-bottom: 3px; }
+  .cook-detail { font-size: 11px; color: var(--text2); line-height: 1.5; }
+  .missing-tag {
+    font-size: 10px;
+    background: var(--red-light);
+    color: var(--red);
+    border-radius: 4px;
+    padding: 1px 7px;
+    display: inline-block;
+    margin-top: 4px;
+  }
+
+  /* PANTRY */
+  .pantry-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+  }
+  .pcat h3 {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--text2);
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .p-item-row {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 13px;
+    padding: 3px 0;
+    cursor: pointer;
+  }
+  .p-item-row input { width: 13px; height: 13px; cursor: pointer; flex-shrink: 0; accent-color: var(--green); }
+  .p-item-row.checked label { text-decoration: line-through; color: var(--text3); }
+  .buy-box {
+    background: var(--red-light);
+    border-radius: var(--radius);
+    padding: 10px 14px;
+    margin-bottom: 1rem;
+    border: 0.5px solid #E8C4C4;
+  }
+  .buy-box h3 { font-size: 12px; font-weight: 500; color: var(--red); margin-bottom: 6px; }
+  .buy-item { font-size: 12px; padding: 2px 0; }
+
+  /* PRINCIPLES */
+  .principles-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 12px;
+  }
+  .principle-card {
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 1rem;
+  }
+  .principle-card h3 {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--text3);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 8px;
+  }
+  .p-item {
+    font-size: 13px;
+    line-height: 1.55;
+    padding: 3px 0;
+    display: flex;
+    gap: 8px;
+  }
+  .p-dot { color: var(--green); flex-shrink: 0; margin-top: 1px; }
+
+  /* PREP */
+  .prep-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 10px;
+  }
+  .prep-card {
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 0.85rem;
+  }
+  .prep-card h3 { font-size: 12px; font-weight: 500; color: var(--text2); margin-bottom: 8px; }
+  .prep-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 7px;
+    font-size: 12px;
+    padding: 3px 0;
+    line-height: 1.45;
+    cursor: pointer;
+  }
+  .prep-item input { width: 13px; height: 13px; cursor: pointer; margin-top: 2px; flex-shrink: 0; accent-color: var(--green); }
+  .prep-item.done label { text-decoration: line-through; color: var(--text3); }
+
+  /* MODAL */
+  .modal-bg {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 200;
+    padding: 1rem;
+  }
+  .modal {
+    background: var(--surface);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    width: 100%;
+    max-width: 480px;
+    max-height: 85vh;
+    overflow-y: auto;
+    border: 0.5px solid var(--border2);
+  }
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 0.75rem;
+  }
+  .modal h2 { font-size: 16px; font-weight: 500; }
+  .close-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 20px;
+    color: var(--text3);
+    line-height: 1;
+    padding: 0 0 0 4px;
+  }
+  .cat-badge {
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    display: inline-block;
+    margin-bottom: 6px;
+    font-weight: 500;
+  }
+  .cat-תבשיל { background: var(--green-light); color: var(--green); }
+  .cat-קציצות { background: var(--amber-light); color: var(--amber); }
+  .cat-סלט { background: var(--blue-light); color: var(--blue); }
+  .cat-נשנוש { background: var(--purple-light); color: var(--purple); }
+  .cat-הכנה { background: var(--surface2); color: var(--text2); }
+  .ingr-table { width: 100%; font-size: 12px; margin-bottom: 0.75rem; }
+  .ingr-table td { padding: 3px 0; vertical-align: top; }
+  .ingr-table td:first-child { color: var(--text2); width: 140px; }
+  .step {
+    font-size: 12px;
+    line-height: 1.6;
+    margin-bottom: 6px;
+    padding-right: 22px;
+    position: relative;
+  }
+  .step-n {
+    position: absolute;
+    right: 0; top: 2px;
+    font-size: 10px;
+    background: var(--surface2);
+    border-radius: 50%;
+    width: 15px; height: 15px;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 500;
+    color: var(--text2);
+  }
+  .tip-box {
+    background: var(--green-light);
+    border-radius: var(--radius);
+    padding: 8px 12px;
+    font-size: 11px;
+    color: var(--green);
+    margin-top: 0.75rem;
+    line-height: 1.55;
+  }
+  .score-bar { height: 3px; background: var(--surface2); border-radius: 2px; margin-top: 4px; }
+  .score-fill { height: 3px; background: var(--green); border-radius: 2px; }
+  .picker-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+    margin-top: 0.75rem;
+  }
+  .picker-item {
+    font-size: 12px;
+    padding: 8px 10px;
+    background: var(--surface2);
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius);
+    cursor: pointer;
+    line-height: 1.4;
+    transition: border-color 0.12s;
+  }
+  .picker-item:hover { border-color: var(--border2); }
+
+  .sides-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 12px;
+  }
+  .side-card {
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 1rem;
+    cursor: pointer;
+    transition: border-color 0.12s;
+  }
+  .side-card:hover { border-color: var(--border2); }
+  .side-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 6px; }
+  .side-title { font-size: 14px; font-weight: 500; }
+  .side-keep { font-size: 10px; color: var(--text3); margin-top: 2px; }
+  .side-desc { font-size: 12px; color: var(--text2); line-height: 1.5; margin-bottom: 8px; }
+  .side-uses { display: flex; flex-wrap: wrap; gap: 4px; }
+  .side-use-tag { font-size: 10px; background: var(--surface2); border-radius: 4px; padding: 2px 7px; color: var(--text2); }
+  .cat-בצד { background: #FEF3E2; color: #7D5A20; }
+
+  @media (max-width: 640px) {
+    .week-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .principles-grid { grid-template-columns: 1fr; }
+    .pantry-grid { grid-template-columns: 1fr 1fr; }
+    .sides-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="logo">מטבח <span>מאושר</span></div>
+  <nav class="tabs" id="tabNav">
+    <button class="tab active" onclick="showTab('week',this)">תפריט שבועי</button>
+    <button class="tab" onclick="showTab('cookday',this)">יום הבישול</button>
+    <button class="tab" onclick="showTab('sides',this)">הכנות בצד</button>
+    <button class="tab" onclick="showTab('pantry',this)">המזווה שלי</button>
+    <button class="tab" onclick="showTab('principles',this)">העקרונות שלי</button>
+    <button class="tab" onclick="showTab('prep',this)">צ׳ק ליסט</button>
+  </nav>
+</header>
+
+<main class="content">
+
+  <!-- WEEK -->
+  <div id="week" class="section active">
+    <div class="top-bar">
+      <h2>תפריט שבועי</h2>
+      <div class="btn-row">
+        <button class="btn" onclick="resetWeek()">איפוס תפריט</button>
+        <button class="btn btn-green" onclick="buildWeek()">בנה תפריט ↗</button>
+      </div>
+    </div>
+    <div class="week-grid" id="weekGrid"></div>
+    <p class="hint">לחצי על ארוחה לפתיחת המתכון · על ריבוע ריק להחלפה</p>
+  </div>
+
+  <!-- COOK DAY -->
+  <div id="cookday" class="section">
+    <div class="top-bar"><h2>יום הבישול</h2></div>
+    <div class="cook-total" id="cookTotal">בני תפריט כדי לראות את תכנית הבישול</div>
+    <div class="cook-timeline" id="cookTimeline"></div>
+  </div>
+
+  <!-- SIDES -->
+  <div id="sides" class="section">
+    <div class="top-bar"><h2>הכנות בצד</h2></div>
+    <p style="font-size:12px;color:var(--text2);margin-bottom:1rem">אלה לא ארוחות — אבל הם מה שהופך כל צלחת למשהו אחר. מכינים פעם בשבוע, מוסיפים לכל דבר.</p>
+    <div class="sides-grid" id="sidesGrid"></div>
+  </div>
+
+  <!-- PANTRY -->
+  <div id="pantry" class="section">
+    <div class="top-bar">
+      <h2>המזווה שלי</h2>
+      <button class="btn" onclick="clearPantry()">אפס מזווה</button>
+    </div>
+    <p style="font-size:12px;color:var(--text2);margin-bottom:.75rem">סמני מה שיש בבית — האפליקציה תבנה תפריט ממה שזמין. המזווה נשמר אוטומטית.</p>
+    <div id="buyBox"></div>
+    <div class="pantry-grid" id="pantryGrid"></div>
+  </div>
+
+  <!-- PRINCIPLES -->
+  <div id="principles" class="section">
+    <div class="top-bar"><h2>העקרונות שלי</h2></div>
+    <div class="principles-grid" id="principlesGrid"></div>
+  </div>
+
+  <!-- PREP -->
+  <div id="prep" class="section">
+    <div class="top-bar"><h2>צ׳ק ליסט הכנה</h2></div>
+    <p style="font-size:12px;color:var(--text2);margin-bottom:.75rem">נבנה לפי התפריט — בני תפריט תחילה</p>
+    <div class="prep-grid" id="prepGrid"></div>
+  </div>
+
+</main>
+
+<!-- MODAL -->
+<div id="modal" style="display:none" class="modal-bg" onclick="if(event.target.id==='modal')closeModal()">
+  <div class="modal" id="modalInner"></div>
+</div>
+
+<script>
+const DAYS=['ראשון','שני','שלישי','רביעי','חמישי','שישי','שבת'];
+
+const PRINCIPLES=[
+  {title:'אכילה',items:[
+    'לאכול בשמחה',
+    'לאכול כשרעבה',
+    'לאכול עד 19:00 — 3 שעות לפני שינה',
+    'לאכול בלי מסכים, ללעוס היטב',
+    'לא למלא את הבטן עד הסוף',
+    '50% מהארוחה ירקות',
+  ]},
+  {title:'ירוקים',items:[
+    'ירוקים — רק בדקה האחרונה בתבשיל',
+    'קייל/מנגולד: ללוש עם שמן זית 5–10 דקות לפני אכילה',
+    'ירוקים עלולים להירקב? אידוי 2 דקות ← מים קרים ← קוביות קרח',
+    'סלרי — בכל תבשיל',
+    'כוסברה ופטרוזיליה — בסלטים קרים',
+  ]},
+  {title:'בישול חכם',items:[
+    'זרעי כמון/כוסברה: להפעיל 2 דקות יבשים במחבת לפני הוספה',
+    'ירקות מאדים: שורשים 40 דקות, בינוניים 25 דקות, ירוקים 5 דקות',
+    'לחמם ירקות מאודים: אידוי 2 דקות בלבד',
+    'קציצות: לסנן ירק במסננת, להוסיף קמח בעדינות',
+    'כשמאדים ירקות — פחות נוזלים בקציצות',
+  ]},
+  {title:'יום הבישול',items:[
+    '2 סוגי דגנים: כוס מכל סוג',
+    'סוג קציצות אחד, עד 20 יחידות — לגוון כל שבוע',
+    'תבשיל אחד',
+    'נגלת ירקות מאודים: שורשים + מהירים',
+    'גבינת אגוזים — לפי רצון',
+    'הכנה ראשונית יום לפני: השרייה, הנבטות',
+  ]},
+];
+
+const RECIPES={
+  'קציצות סלק ובטטה':{cat:'קציצות',time:70,
+    pantryKeys:['סלק','בטטה','קמח חומוס'],
+    tip:'לסנן ירקות מגורדים במסננת לפחות 10 דקות. להוסיף קמח בהדרגה.',
+    ingredients:[['סלקים','3'],['בטטות','2'],['קמח חומוס','חצי כוס'],['ירוקים קצוצים','צרור'],['כמון','כפית'],['שום יבש','כפית'],['שומשום מלא','—'],['טחינה גולמית','כף'],['מלח','כפית']],
+    steps:['מבשלים סלקים 35 דקות, מגרדים לקערה.','אופים בטטות 45 דקות שלמות, מקררים ומוסיפים.','מוסיפים קמח חומוס, ירוקים, תבלינים, טחינה — לשים.','מכינים כדורים, שמן זית, שומשום. אופים 25 דקות 180°.']},
+  'קציצות טופו וקישוא':{cat:'קציצות',time:45,
+    pantryKeys:['טופו','קישוא/זוקיני','קמח שקדים'],
+    tip:'מגרדים קישואים ומסננים 10 דקות — קריטי לטקסטורה. קמח שקדים נותן לחות ורכות.',
+    ingredients:[['קישואים','6'],['טופו','300 גרם'],['קמח שקדים','חצי כוס'],['שמיר','חצי צרור'],['שמרי בירה','כף'],['שום יבש','כפית'],['זרעי חמניה','חופן'],['מלח','כפית']],
+    steps:['מגרדים קישואים, מסננים 10 דקות.','מגרדים טופו, מערבבים עם כל הרכיבים.','מכינים קציצות. שמן זית. אופים 25 דקות 180°.']},
+  'קציצות כרוב':{cat:'קציצות',time:55,
+    pantryKeys:['כרוב לבן','קמח חומוס'],
+    tip:'לאדות את הכרוב קודם — מפחית נוזלים ומשפר טקסטורה.',
+    ingredients:[['כרוב לבן','1'],['בצל לבן','—'],['בצל ירוק','אריזה'],['קמח חומוס','חצי כוס'],['שמן זית','4 כפות'],['שומשום שחור','—'],['מלח','כפית']],
+    steps:['מקפיצים כרוב עם שמן זית עד התרככות.','טוחנים בפולסים. צורבים בצל בנפרד.','מערבבים הכל, מוסיפים קמח חומוס ותבלינים, לשים.','אופים 25 דקות, הופכים, עוד 15 דקות 180° טורבו.']},
+  'תבשיל ירוקים':{cat:'תבשיל',time:30,
+    pantryKeys:['כרישה','ברוקולי','קייל'],
+    tip:'ירוקים — רק בדקה האחרונה. סלרי בכל תבשיל.',
+    ingredients:[['כרישה','1'],['שום','5 שיניים'],['סלרי','3 מקלות'],['גזר','2'],['זוקיני','1'],['ברוקולי','ראש'],['קייל/מנגולד','8 עלים'],['מש/אפונה','כוס'],['תערובת איטלקית','כפית']],
+    steps:['מקפיצים כרישה, שום, סלרי, גזר, זוקיני.','מוסיפים תבלינים.','מוסיפים ברוקולי, מש עם חצי כוס מים.','בדקה האחרונה: קייל/מנגולד קצוץ. מגישים עם לימון ושמרי בירה.']},
+  'תבשיל ירקות ועדשים':{cat:'תבשיל',time:45,
+    pantryKeys:['בצל לבן','גזר','בטטה','עדשים חומות'],
+    tip:'זרעי כמון וכוסברה — להפעיל 2 דקות יבשים במחבת לפני הוספה.',
+    ingredients:[['בצל','1'],['שום','—'],['גזר','—'],['בטטה','—'],['תפו"א','—'],['כוסברה טחונה','כפית'],['פפריקה','כפית'],['כמון','כפית'],['מש/עדשים/כוסמת','כוס']],
+    steps:['מפעילים כמון וכוסברה 2 דקות יבשים במחבת.','מוסיפים בצל, שום, גזר — מקפיצים.','מוסיפים בטטה, תפו"א, עגבניות ומים, 20 דקות.','מוסיפים קטניות לעוד 20 דקות. ירוקים בדקה האחרונה.']},
+  'מג\'דרה פריקי':{cat:'תבשיל',time:50,
+    pantryKeys:['פריקי','עדשים חומות'],
+    tip:'לאחר כיבוי — לא לפתוח 15 דקות. הקיטור ממשיך לבשל.',
+    ingredients:[['עדשים ירוקות/חומות','כוס וחצי'],['פריקי/בורגול','כוס וחצי'],['מים','3 כוסות'],['שום','5 שיניים'],['כמון','חצי כפית'],['כורכום','חצי כפית'],['שמן זית','—'],['מלח','חצי כפית']],
+    steps:['מביאים לרתיחה מים, עדשים, שום, כורכום, כמון.','מקטינים להבה, מכסה — 25 דקות.','מוסיפים פריקי, מלח, שמן זית — מכסים 10 דקות.','מכבים. ממתינים 15 דקות לפני פתיחה.']},
+  'שעועית לימה ועגבניות':{cat:'תבשיל',time:40,
+    pantryKeys:['שעועית לבנה','עגבניות שרי','שום'],
+    tip:'השרייה לילה לפני — מקצרת בישול ומשפרת עיכול.',
+    ingredients:[['שעועית לימה/לבנה','300 גרם'],['עגבניות שרי','600 גרם'],['שום','ראש'],['בזיליקום טרי','צרור'],['מרווה טריה','צרור'],['מלח','חצי כפית']],
+    steps:['השרייה לילה, בישול במים נקיים עד ריכוך.','מטגנים שום עד זהוב. מוסיפים עגבניות.','מוסיפים שעועית + כוס מנוזלי הבישול.','מוסיפים בזיליקום, אש נמוכה 10 דקות.']},
+  'חורשט סבזי':{cat:'תבשיל',time:60,
+    pantryKeys:['תרד','פטרוזיליה','בצל לבן'],
+    tip:'הסוד: לצרוב ירוקים בנפרד עד שנפחם יורד — מרכז טעמים.',
+    ingredients:[['בצל','4'],['שמיר','2 צרורות'],['כוסברה','2 צרורות'],['פטרוזיליה','2 צרורות'],['תרד','500 גרם'],['שעועית','500 גרם'],['תמרינדי','2 כפות'],['מיץ לימון','חצי כוס']],
+    steps:['מטגנים בצל עד שחום. מעבירים לקערה.','צורבים כל הירוקים הקצוצים בנפרד עד שנפחם יורד.','מחזירים בצל, מוסיפים מים, שעועית, תמרינדי.','מבשלים על אש בינונית 30 דקות.']},
+  'סלט קינואה':{cat:'סלט',time:25,
+    pantryKeys:['קינואה (הרדוף, כרם, תבואות)','רוקט'],
+    tip:'לסנן קינואה לפחות שעה אחרי בישול — יבשה יותר ומפוררת.',
+    ingredients:[['קינואה','כוס'],['סלרי','—'],['בצל ירוק','—'],['רוקט','—'],['קייל','—'],['פטרוזיליה','—'],['ירקות אפויים','לפי בחירה'],['גרעינים','חופן']],
+    steps:['מבשלים קינואה 12 דקות, מסננים שעה.','קוצצים סלרי, בצל ירוק, רוקט, קייל, פטרוזיליה.','מוסיפים ירקות אפויים וגרעינים.','מוסיפים לימון ושמן זית רק לפני אכילה.']},
+  'סלט מש וסלק':{cat:'סלט',time:20,
+    pantryKeys:['שעועית מש','סלק'],
+    tip:'מש מבושל 3–4 דקות בלבד — רגיש לבישול יתר.',
+    ingredients:[['מש מונבט/מבושל','כוס'],['סלק','—'],['מנגולד מאודה','4 עלים'],['פטרוזיליה','—'],['בצל ירוק','—'],['קולורבי','חצי'],['לימון ושמן זית','—']],
+    steps:['מבשלים/מנביטים מש. מבשלים 3–4 דקות.','מוסיפים סלק מבושל, מנגולד מאודה, ירקות קצוצים.','מתבלים בלימון ושמן זית.']},
+  'גבינת אגוזים':{cat:'הכנה',time:30,
+    pantryKeys:['שקדים','קשיו'],
+    tip:'בקיץ: השרייה 6–8 שעות. בחורף: 24 שעות. לטחון עם שלושת-רבעי גובה מים.',
+    ingredients:[['שקדים או קשיו','200 גרם'],['מים','שלושת-רבעי גובה'],['לימון','—'],['שום','שן'],['שמרי בירה','—'],['מלח','—'],['זעתר/שמיר/פסטו','לפי טעם']],
+    steps:['משרים אגוזים לילה. שוטפים.','טוחנים עם מים שלושת-רבעי גובה.','מוציאים להתססה כמה שעות — טועמים.','מוסיפים לימון, שום, שמרי בירה, מלח, תוספות.','נשמר 5 ימים במקרר.']},
+  'כדורי שוקולד':{cat:'נשנוש',time:30,
+    pantryKeys:['ממרח תמרים','קקאו'],
+    tip:'אם תערובת יבשה — להוסיף קרם קוקוס. לחה מדי — למקרר לייצוב.',
+    ingredients:[['תמרים/ממרח תמרים','500 גרם'],['אגוזים מיקס','200 גרם'],['קקאו ניבס','70 גרם'],['אבקת קקאו','שלושת-רבעי כוס'],['קרם קוקוס (לבן)','חצי כוס'],['מלח','קורט']],
+    steps:['טוחנים אגוזים וקקאו ניבס.','טוחנים תמרים בנפרד.','מערבבים הכל עם קרם קוקוס ומלח, לשים.','מכדררים. מצפים בקוקוס/קקאו. מקפיאים.']},
+  'גרנולה בר':{cat:'נשנוש',time:25,
+    pantryKeys:['חמניה','חמאת שקדים'],
+    tip:'לא לדלג על הקפאה — בלי ייצוב הבר מתפרק.',
+    ingredients:[['אמרנט','חצי כוס'],['זרעי דלעת','חצי כוס'],['זרעי חמניה','חצי כוס'],['צ\'יה','רבע כוס'],['גוג\'י/תות מיובש','רבע כוס'],['חמאת שקד','חצי כוס'],['שוקולד מריר','100 גרם']],
+    steps:['מתפיחים אמרנט כף אחת כף במחבת חמה.','מערבבים עם זרעים, חמאת שקד, שוקולד מומס.','מהדקים לתבנית. מקפיאים שעה.']},
+  'קרקרי כוסמין':{cat:'נשנוש',time:25,
+    pantryKeys:['קמח כוסמין מלא','פשתן','שומשום מלא'],
+    tip:'לרדד דק ככל האפשר — זה הסוד לפריכות. מחזיק שבוע בקופסה סגורה.',
+    ingredients:[['קמח כוסמין','כוס'],['חמניה','חצי כוס'],['פשתן','רבע כוס'],['שומשום','רבע כוס'],['צ\'יה','3 כפות'],['זעתר','כפית'],['שמן זית','שליש כוס'],['מים','שלושת-רבעי כוס']],
+    steps:['מערבבים הכל.','מרדדים דק מאוד על נייר אפייה.','165°, 12 דקות, חותכים לריבועים, עוד 8 דקות.']},
+  'שייק ירוק':{cat:'נשנוש',time:5,
+    pantryKeys:['פירות קפואים','קייל'],
+    tip:'פשתן טחון + ספירולינה — ברזל וחומצות שומן. להוסיף תמיד.',
+    ingredients:[['פירות קפואים','כוס'],['קייל','2 עלים'],['פטרוזיליה','צרור'],['סלרי','2 מקלות'],['ג\'ינג\'ר טרי','אצבע'],['פשתן טחון','כפית'],['ספירולינה','כפית'],['תמר','1'],['מים','—']],
+    steps:['שמים הכל בבלנדר עם מים.','מערבבים עד חלק.']},
+  'חביתות עדשים מותססות':{cat:'הכנה',time:20,
+    pantryKeys:['עדשים כתומות'],
+    tip:'הבלילה נשמרת שבוע במקרר. אפשר לשדרג עם בצל סגול מותסס.',
+    ingredients:[['עדשים כתומות','כוס'],['מים','—'],['שום','שן'],['תבלינים','לפי טעם']],
+    steps:['משרים עדשים 24 שעות, מנביטים.','טוחנים עם מעט מים לבלילה.','מוסיפים שום ותבלינים.','מכינים חביתות דקות במחבת.']},
+  'ירקות מאודים':{cat:'הכנה',time:45,
+    pantryKeys:['סלק','בטטה','ברוקולי'],
+    tip:'שורשים 40 דקות, בינוניים 25 דקות, ירוקים 5 דקות. לחמם — אידוי 2 דקות בלבד.',
+    ingredients:[['שורשים (סלק, קולורבי, תפו"א)','לפי בחירה'],['בינוניים (בטטה, קישוא)','לפי בחירה'],['ירוקים (ברוקולי, כרוב)','לפי בחירה']],
+    steps:['שורשים לסיר אידוי: 40 דקות.','בטטה, קישוא, כרובית: 25 דקות.','ברוקולי, כרוב, שעועית ירוקה: 5 דקות.','מצננים ושומרים בקופסאות נפרדות.']},
+};
+
+const PANTRY_ITEMS={
+  'דגנים':['אורז בסמטי מלא','אורז בר','כוסמת ירוקה','כוסמת קלויה','פריקי','קינואה (הרדוף, כרם, תבואות)','דוחן','קוסקוס מלא','אטריות סובה','פסטה כוסמין מלא','בורגול עבה'],
+  'קטניות':['עדשים כתומות','עדשים שחורות','עדשים חומות','שעועית אדומה','שעועית לבנה','שעועית שחורה','שעועית מש','חומוס','לוביה','מאנג דאל'],
+  'אגוזים וזרעים':['ברזיל','מקדמיה','פקאן','קשיו','פיסטוק','שקדים','צנובר','צ\'יה','שומשום שחור','שומשום מלא','קצח','פשתן','זרעי חמניה','זרעי דלעת','זרעי המפ'],
+  'תבלינים':['אבקת שום','אבקת ג\'ינג\'ר','פפריקה מעושנת','כורכום','טימין','כמון','כוסברה טחונה','זעתר','רוזמרין','אורגנו','פלפל שחור','ראס אל חנות','זרעי כמון','זרעי כוסברה'],
+  'מזווה':['שמן זית','חמאת קוקוס','חמאת בוטנים','חלב סויה (דה בריג\')','טופו','סויה תמרי','סילאן','מייפל','ממרח תמרים','חמאת שקדים','תמרהינדי','שמרי בירה (תבואות)','קקאו','קקאו ניבס','קמח חומוס','קמח כוסמין מלא','קמח שקדים','קמח עדשים','ספירולינה','טחינה (אמארה)','קרם קוקוס','חומץ תפוחים'],
+  'מקפיא':['פירות קפואים','אפונה (ליב)','שעועית (ליב)','ספירולינה קפואה'],
+  'ירקות טריים':['דלעת','כרוב לבן','כרוב סגול','בצל ירוק','כרישה','שום','סלרי - מקלות ושורש','שורש פטרוזיליה','פטרוזיליה','רוקט','תפוחי אדמה','בטטה','סלק','בצל לבן','בצל סגול','גזר','קולורבי','ברוקולי','קייל','מנגולד','תרד','לימון','קישוא/זוקיני','עגבניות שרי','חסה','שמיר','כוסברה','ג\'ינג\'ר טרי','שורש סלרי'],
+};
+
+let pantryChecked = JSON.parse(localStorage.getItem('pantry_v1')||'{}');
+let currentChosen=[], weekPlan={}, weekSnack='';
+
+function savePantry(){ try{ localStorage.setItem('pantry_v1', JSON.stringify(pantryChecked)); }catch(e){} }
+
+function recipeScore(r){
+  if(!r.pantryKeys||!r.pantryKeys.length) return 1;
+  return r.pantryKeys.filter(k=>pantryChecked[k]).length / r.pantryKeys.length;
+}
+function getMissing(r){ return (r.pantryKeys||[]).filter(k=>!pantryChecked[k]); }
+
+function showTab(id,el){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  el.classList.add('active');
+}
+
+// היסטוריית גיוון — זוכרת 3 שבועות אחרונים
+let recentHistory = JSON.parse(localStorage.getItem('recent_history')||'[]');
+
+function saveHistory(names){
+  recentHistory.unshift(names);
+  if(recentHistory.length>3) recentHistory=recentHistory.slice(0,3);
+  try{ localStorage.setItem('recent_history', JSON.stringify(recentHistory)); }catch(e){}
+}
+
+function weeksSinceUsed(name){
+  for(let i=0;i<recentHistory.length;i++){
+    if(recentHistory[i].includes(name)) return i+1;
+  }
+  return Infinity;
+}
+
+function buildWeek(){
+  const all=Object.entries(RECIPES).map(([name,r])=>({name,...r,score:recipeScore(r)}));
+  const mains=all.filter(r=>r.cat!=='נשנוש'&&r.cat!=='הכנה');
+  const snacks=all.filter(r=>r.cat==='נשנוש');
+
+  function diversityScore(r){
+    const weeks=weeksSinceUsed(r.name);
+    const bonus=weeks===Infinity?0.6:weeks===1?0:weeks===2?0.3:0.5;
+    return r.score+bonus;
+  }
+
+  const cats=['תבשיל','קציצות','סלט'];
+  let chosen=[];
+  cats.forEach(cat=>{
+    const opts=mains.filter(r=>r.cat===cat).sort((a,b)=>diversityScore(b)-diversityScore(a));
+    if(opts.length) chosen.push(opts[0]);
+  });
+  if(chosen.length<4){
+    const extra=mains.sort((a,b)=>diversityScore(b)-diversityScore(a))
+      .find(r=>!chosen.find(c=>c.name===r.name));
+    if(extra) chosen.push(extra);
+  }
+
+  const snackSorted=snacks.sort((a,b)=>diversityScore(b)-diversityScore(a));
+  weekSnack=snackSorted[0]?.name||'';
+
+  saveHistory(chosen.map(r=>r.name).concat(weekSnack?[weekSnack]:[]));
+
+  currentChosen=chosen;
+  weekPlan={};
+  DAYS.forEach((day,i)=>{
+    weekPlan[day]={
+      צהריים:chosen[i%chosen.length].name,
+      ערב:chosen[(i+1)%chosen.length].name,
+    };
+  });
+  renderWeek(); renderCookDay(chosen); renderPrepList(chosen); updateBuyBox();
+}
+
+function resetWeek(){
+  weekPlan={}; currentChosen=[]; weekSnack='';
+  renderWeek();
+  document.getElementById('cookTotal').textContent='בני תפריט כדי לראות את תכנית הבישול';
+  document.getElementById('cookTimeline').innerHTML='';
+  document.getElementById('prepGrid').innerHTML='';
+}
+
+function renderWeek(){
+  const grid=document.getElementById('weekGrid');
+  grid.innerHTML='';
+  DAYS.forEach(day=>{
+    const col=document.createElement('div'); col.className='day-col';
+    const meals=weekPlan[day]||{};
+    col.innerHTML=`<div class="day-name">${day}</div>`;
+    ['צהריים','ערב'].forEach(m=>{
+      const val=meals[m];
+      const lbl=document.createElement('div'); lbl.className='meal-label'; lbl.textContent=m;
+      const chip=document.createElement('div');
+      chip.className='meal-chip'+(val?'':' empty');
+      chip.textContent=val||'+ הוסיפי';
+      chip.onclick=val?()=>openRecipeModal(val):()=>openPicker(day,m);
+      col.appendChild(lbl); col.appendChild(chip);
+    });
+    if(weekSnack){
+      const s=document.createElement('div'); s.className='snack-chip';
+      s.textContent='נשנוש: '+weekSnack;
+      s.onclick=()=>openRecipeModal(weekSnack);
+      col.appendChild(s);
+    }
+    grid.appendChild(col);
+  });
+}
+
+function renderCookDay(chosen){
+  const blocks=[];
+  blocks.push({label:'יום לפני — ערב',time:'5 דקות',detail:'השרייה: קטניות + אגוזים לגבינה (אם מכינים). הנבטות.',active:false});
+  blocks.push({label:'ירקות מאודים',time:'40 דקות (מקביל)',detail:'שורשים: 40 דקות. בינוניים: 25 דקות. ירוקים: 5 דקות. מניחים לסיר ועוסקים בשאר.',active:true});
+  blocks.push({label:'2 סוגי דגנים',time:'15 דקות',detail:'קינואה כמו פסטה 12 דקות. כוסמת/פריקי עם 2 כוסות מים. לסנן ולקרר.',active:true});
+  let total=55;
+  chosen.forEach(r=>{
+    const m=getMissing(r);
+    blocks.push({label:r.name,time:r.time+' דקות',detail:r.steps.slice(0,2).join(' · '),missing:m.length?'חסר: '+m.join(', '):'',active:true,recipeName:r.name});
+    total+=r.time;
+  });
+  if(weekSnack){
+    const sr=RECIPES[weekSnack];
+    blocks.push({label:'נשנוש: '+weekSnack,time:(sr?.time||20)+' דקות',detail:'להכין לכל השבוע.',active:true,recipeName:weekSnack});
+    total+=sr?.time||20;
+  }
+  const real=Math.round(total*0.6);
+  document.getElementById('cookTotal').textContent=`זמן בישול משוער: כ-${real} דקות (כ-${Math.ceil(real/60)} שעות) — מקביליות חוסכת זמן`;
+  document.getElementById('cookTimeline').innerHTML=blocks.map(b=>`
+    <div class="cook-block${b.active?' active':''}">
+      <div class="cook-card${b.recipeName?' clickable':''}" ${b.recipeName?`onclick="openRecipeModal('${b.recipeName}')"`:''}>
+        <div class="cook-time">${b.time}</div>
+        <h3>${b.label}</h3>
+        <div class="cook-detail">${b.detail}</div>
+        ${b.missing?`<div class="missing-tag">${b.missing}</div>`:''}
+      </div>
+    </div>`).join('');
+}
+
+function renderPrepList(chosen){
+  const sections=[];
+
+  // יום לפני
+  sections.push({title:'יום לפני — ערב', badge:'', tasks:[
+    'השרייה: קטניות לתבשיל',
+    'השרייה: אגוזים לגבינה (אם מכינים)',
+    'הנבטות: מש/עדשים/כוסמת ירוקה',
+  ]});
+
+  // ירקות ודגנים
+  sections.push({title:'ירקות ודגנים', badge:'', tasks:[
+    'סיר אידוי שורשים — 40 דקות',
+    'בישול 2 סוגי דגנים, כוס מכל',
+    'ירקות מהירים 5–25 דקות',
+    'ירקות בתנור לפי בחירה',
+  ]});
+
+  // מתכונים ראשיים
+  chosen.forEach(r=>{
+    sections.push({title:r.name, badge:r.cat, tasks:['לאסוף מרכיבים',...r.steps]});
+  });
+
+  // נשנוש
+  if(weekSnack) sections.push({title:'נשנוש: '+weekSnack, badge:'נשנוש', tasks:[...(RECIPES[weekSnack]?.steps||[])]});
+
+  // הכנות בצד — רק מה שזמין לפי המזווה
+  const availableSides = SIDES.filter(s=>{
+    const missing=(s.pantryKeys||[]).filter(k=>!pantryChecked[k]);
+    return missing.length===0;
+  });
+  if(availableSides.length){
+    sections.push({
+      title:'הכנות בצד',
+      badge:'בצד',
+      isSideSection: true,
+      tasks: availableSides.map(s=>`${s.name} (${s.keep})`),
+    });
+  }
+
+  // אחסון
+  sections.push({title:'אחסון', badge:'', tasks:[
+    'כלי זכוכית אטומים',
+    'תיוג תאריך על כל קופסה',
+    'ירקות מאודים — נפרד לפי סוג',
+  ]});
+
+  const badgeColors={
+    'תבשיל':'background:#D8EDDF;color:#2D6A4F',
+    'קציצות':'background:#FAEADA;color:#7D4E24',
+    'סלט':'background:#D4E9F7;color:#1B4F72',
+    'נשנוש':'background:#EAE4F5;color:#4A3A6B',
+    'בצד':'background:#FEF3E2;color:#7D5A20',
+  };
+
+  document.getElementById('prepGrid').innerHTML=sections.map((s,si)=>`
+    <div class="prep-card">
+      <h3>${s.badge?`<span style="font-size:10px;padding:1px 6px;border-radius:3px;margin-left:5px;${badgeColors[s.badge]||''}">${s.badge}</span>`:''}${s.title}</h3>
+      ${s.tasks.map((t,ti)=>{
+        const k=`${si}_${ti}`;
+        const clickable=s.isSideSection?`onclick="openSideByName('${t.split(' (')[0]}')" style="cursor:pointer"`:''
+        return `<label class="prep-item" id="pi_${k}" ${clickable}><input type="checkbox" onchange="togglePrep('${k}',this)"> ${t}</label>`;
+      }).join('')}
+    </div>`).join('');
+}
+
+function openSideByName(name){
+  const i=SIDES.findIndex(s=>s.name===name);
+  if(i>=0) openSideModal(i);
+}
+
+function togglePrep(k,el){ document.getElementById('pi_'+k).classList.toggle('done',el.checked); }
+
+function updateBuyBox(){
+  const all={};
+  [...currentChosen, weekSnack?{...RECIPES[weekSnack]}:null].filter(Boolean).forEach(r=>{ getMissing(r).forEach(k=>all[k]=true); });
+  const buy=Object.keys(all);
+  const box=document.getElementById('buyBox');
+  box.innerHTML=buy.length?`<div class="buy-box"><h3>לקנות (${buy.length} פריטים)</h3>${buy.map(i=>`<div class="buy-item">• ${i}</div>`).join('')}</div>`:'';
+}
+
+function openPicker(day,meal){
+  const all=Object.entries(RECIPES).filter(([n,r])=>r.cat!=='נשנוש'&&r.cat!=='הכנה').sort((a,b)=>recipeScore(b[1])-recipeScore(a[1]));
+  document.getElementById('modalInner').innerHTML=`
+    <div class="modal-header">
+      <h2>ארוחת ${meal} — ${day}</h2>
+      <button class="close-btn" onclick="closeModal()">×</button>
+    </div>
+    <div class="picker-grid">${all.map(([name,r])=>{
+      const sc=Math.round(recipeScore(r)*100); const m=getMissing(r);
+      return `<div class="picker-item" onclick="assignMeal('${day}','${meal}','${name}')">
+        <span class="cat-badge cat-${r.cat}">${r.cat}</span><br>${name}
+        <div class="score-bar"><div class="score-fill" style="width:${sc}%"></div></div>
+        <span style="font-size:10px;color:${m.length?'#8B2E2E':'#2D6A4F'}">${m.length?'חסר: '+m.join(', '):'הכל זמין'}</span>
+      </div>`;
+    }).join('')}</div>`;
+  document.getElementById('modal').style.display='flex';
+}
+
+function assignMeal(day,meal,name){
+  if(!weekPlan[day]) weekPlan[day]={};
+  weekPlan[day][meal]=name;
+  closeModal();
+  const used=[...new Set(Object.values(weekPlan).flatMap(d=>Object.values(d)))];
+  currentChosen=used.map(n=>({name:n,...RECIPES[n],score:recipeScore(RECIPES[n])})).filter(r=>r.cat&&r.cat!=='נשנוש'&&r.cat!=='הכנה');
+  renderWeek(); renderCookDay(currentChosen); renderPrepList(currentChosen); updateBuyBox();
+}
+
+function openRecipeModal(name){
+  const r=RECIPES[name]; if(!r) return;
+  const m=getMissing(r);
+  document.getElementById('modalInner').innerHTML=`
+    <div class="modal-header">
+      <div><span class="cat-badge cat-${r.cat}">${r.cat}</span><h2>${name}</h2></div>
+      <button class="close-btn" onclick="closeModal()">×</button>
+    </div>
+    ${m.length?`<div class="missing-tag" style="margin-bottom:8px">חסר: ${m.join(', ')}</div>`:''}
+    <p style="font-size:11px;color:var(--text3);margin-bottom:.5rem">זמן הכנה: ~${r.time} דקות</p>
+    <h3 style="font-size:11px;font-weight:600;color:var(--text2);margin:.5rem 0 4px;text-transform:uppercase;letter-spacing:.5px">מרכיבים</h3>
+    <table class="ingr-table">${r.ingredients.map(([n,q])=>`<tr><td>${n}</td><td>${q||''}</td></tr>`).join('')}</table>
+    <h3 style="font-size:11px;font-weight:600;color:var(--text2);margin:.5rem 0 4px;text-transform:uppercase;letter-spacing:.5px">הוראות</h3>
+    ${r.steps.map((s,i)=>`<div class="step"><span class="step-n">${i+1}</span>${s}</div>`).join('')}
+    ${r.tip?`<div class="tip-box">💡 ${r.tip}</div>`:''}`;
+  document.getElementById('modal').style.display='flex';
+}
+
+function closeModal(){ document.getElementById('modal').style.display='none'; }
+
+function renderPantry(){
+  const grid=document.getElementById('pantryGrid');
+  grid.innerHTML=Object.entries(PANTRY_ITEMS).map(([cat,items])=>`
+    <div class="pcat"><h3>${cat}</h3>${items.map(item=>{
+      const id='p_'+item.replace(/[^\w\u05D0-\u05EA]/g,'_');
+      return `<div class="p-item-row${pantryChecked[item]?' checked':''}" id="pw_${id}">
+        <input type="checkbox" id="${id}" ${pantryChecked[item]?'checked':''} onchange="togglePantry('${item}','${id}',this)">
+        <label for="${id}">${item}</label>
+      </div>`;
+    }).join('')}</div>`).join('');
+}
+
+function togglePantry(item,id,el){
+  pantryChecked[item]=el.checked;
+  document.getElementById('pw_'+id).classList.toggle('checked',el.checked);
+  savePantry();
+}
+
+function clearPantry(){
+  if(!confirm('לאפס את כל המזווה?')) return;
+  pantryChecked={}; savePantry(); renderPantry();
+  document.getElementById('buyBox').innerHTML='';
+}
+
+function renderPrinciples(){
+  document.getElementById('principlesGrid').innerHTML=PRINCIPLES.map(p=>`
+    <div class="principle-card">
+      <h3>${p.title}</h3>
+      ${p.items.map(i=>`<div class="p-item"><span class="p-dot">•</span>${i}</div>`).join('')}
+    </div>`).join('');
+}
+
+const SIDES = [
+  {
+    name: 'גבינת אגוזים',
+    keep: 'נשמר 5 ימים במקרר',
+    desc: 'בסיס לכל דבר. אפשר לשנות טעם כל שבוע — זעתר, פסטו, שמיר-מלפפון, פלפל קלוי.',
+    uses: ['על קרקרים','לסלטים','לתבשיל','עם ירקות מאודים','ממרח לחם'],
+    pantryKeys: ['שקדים','קשיו'],
+    ingredients:[['שקדים או קשיו','200 גרם'],['מים','שלושת-רבעי גובה'],['לימון','—'],['שום','שן'],['שמרי בירה','כף'],['מלח','—'],['זעתר / שמיר / פסטו','לפי טעם']],
+    steps:['משרים אגוזים לילה, שוטפים.','טוחנים עם מים שלושת-רבעי גובה.','מוציאים להתססה כמה שעות — טועמים ומריחים.','מוסיפים לימון, שום, שמרי בירה, מלח ותוספות לפי בחירה.'],
+    tip:'בקיץ: 6–8 שעות התססה. בחורף: 24 שעות. הבסיס הקבוע: שמרי בירה + לימון + מלח.',
+  },
+  {
+    name: 'טחינה מדוללת',
+    keep: 'נשמר שבוע במקרר',
+    desc: 'טחינה אמארה מדוללת עם לימון ומים — נוזלית, חמצמצה, מושלמת. שודרגת עם שום.',
+    uses: ['על קציצות','לסלטים','לתבשיל','טבילה לירקות מאודים','על שייק ירוק'],
+    pantryKeys: ['טחינה (אמארה)'],
+    ingredients:[['טחינה גולמית (אמארה)','חצי כוס'],['מיץ לימון','חצי כוס'],['מים קרים','שלושת-רבעי כוס'],['שום','שן אחת'],['מלח','קורט']],
+    steps:['מכניסים טחינה לקערה — תסמיך קודם, זה נורמלי.','מוסיפים לימון ומים בהדרגה תוך כדי ערבוב עד לקבלת מרקם נוזלי.','מוסיפים שום מגורר ומלח. טועמים ומאזנים.'],
+    tip:'הטחינה צריכה להיות נוזלית כמו שמנת מדוללת, לא עבה. אם עבה — להוסיף מים.',
+  },
+  {
+    name: 'ממרח ירוקים (פסטו)',
+    keep: 'נשמר 5 ימים במקרר',
+    desc: 'פסטו טבעוני מהמטבח שלך — כוסברה, קייל, פטרוזיליה עם אגוזים ולימון.',
+    uses: ['על קרקרים','לגבינת אגוזים','לסלטים','לפסטה','על ירקות מאודים'],
+    pantryKeys: ['פטרוזיליה','קייל','שקדים'],
+    ingredients:[['כוסברה/קייל/פטרוזיליה','צרור מכל'],['שקדים/קשיו','חופן'],['שום','שן'],['לימון','חצי'],['שמן זית','3 כפות'],['שמרי בירה','כף'],['מלח','—']],
+    steps:['שמים הכל במעבד מזון.','מעבדים בפולסים — לא חלק לגמרי, קצת גרגרי.','טועמים ומאזנים לימון/מלח.'],
+    tip:'אפשר לשנות הרכב הירוקים לפי מה שיש. עם יותר שמן זית — נשמר יותר זמן.',
+  },
+  {
+    name: 'קוביות טופו פריכות',
+    keep: 'נשמר 4 ימים במקרר',
+    desc: 'קרוטוני טופו — מתווספים לכל סלט או תבשיל ומוסיפים חלבון ופריכות.',
+    uses: ['לסלטים','לתבשיל','נשנוש כך','על שייק'],
+    pantryKeys: ['טופו','קמח שקדים'],
+    ingredients:[['טופו קשה (ויילר)','300 גרם'],['קמח שקדים','3 כפות'],['שמן זית','2 כפות'],['אבקת שום','חצי כפית'],['שמרי בירה','כף'],['מלח','—']],
+    steps:['חותכים טופו לקוביות 2 ס"מ.','מערבבים עם קמח שקדים, אבקת שום, שמרי בירה, מלח.','מפזרים שמן זית ואופים 20 דקות 200° עד זהוב.'],
+    tip:'לשמור בקופסה פתוחה קצת — שישמרו פריכים. לא לכסות הרמטי.',
+  },
+  {
+    name: 'קוביות סלק מבושל',
+    keep: 'נשמר 5 ימים במקרר במים',
+    desc: 'סלק מבושל חתוך לקוביות — הכי קל להוסיף לכל דבר.',
+    uses: ['לסלטים','עם גבינת אגוזים','בתבשיל','עם טחינה'],
+    pantryKeys: ['סלק'],
+    ingredients:[['סלקים','3–4'],['מים','לכיסוי']],
+    steps:['מבשלים סלקים שלמים עם הקליפה 30–35 דקות.','מקררים מתחת למים קרים, מקלפים.','חותכים לקוביות. שומרים במקרר עם מעט מים.'],
+    tip:'לבשל עם הקליפה — שומרת על הצבע והטעם. לקלף רק אחרי קירור.',
+  },
+  {
+    name: 'עדשים/מש מנוביטים',
+    keep: 'נשמר 3 ימים במקרר',
+    desc: 'קטניות מונבטות — מוסיפים לכל דבר. בישול 3–4 דקות בלבד.',
+    uses: ['לסלטים','לתבשיל','נשנוש בריא','עם לימון ושמן זית'],
+    pantryKeys: ['שעועית מש','עדשים חומות'],
+    ingredients:[['מש או עדשים','כוס'],['מים','לכיסוי']],
+    steps:['משרים ללילה.','מסננים ומשאירים בקערה מכוסה 24–48 שעות עד שצצים נבטים.','לבישול: 3–4 דקות במים רותחים. מצננים מיד.'],
+    tip:'מש מונבט טעים כך בלי בישול. עדשים — 3 דקות בישול ולא יותר.',
+  },
+  {
+    name: 'בצל סגול מותסס',
+    keep: 'נשמר שבועיים במקרר',
+    desc: 'חמוץ-מתוק, יפה וחי. מוסיף עומק לכל ארוחה עם תזונה פרוביוטית.',
+    uses: ['על חביתות','לסלטים','לתבשיל','על קרקרים עם גבינה'],
+    pantryKeys: ['בצל סגול','חומץ תפוחים'],
+    ingredients:[['בצל סגול','2 גדולים'],['חומץ תפוחים','חצי כוס'],['מים','חצי כוס'],['מלח','כפית'],['סוכר/מייפל','כפית (אפשרי)']],
+    steps:['פורסים בצל דק מאוד — טבעות או חצאי טבעות.','מחממים חומץ, מים ומלח עד מסיסות. מצננים מעט.','שופכים על הבצל בצנצנת. ממתינים שעה מינימום.'],
+    tip:'כבר אחרי שעה ורוד ומוכן. אחרי לילה — הכי טוב.',
+  },
+  {
+    name: 'קרוטוני שעועית/חומוס',
+    keep: 'נשמר 3 ימים בקופסה פתוחה',
+    desc: 'שעועית שחורה או חומוס מבושלים, אפויים עם תבלינים — פריכים ומלאי חלבון.',
+    uses: ['על סלט','לנשנוש','עם גבינת אגוזים','כתוספת לתבשיל'],
+    pantryKeys: ['חומוס','שעועית שחורה'],
+    ingredients:[['שעועית שחורה / חומוס מבושל','כוס'],['שמן זית','כף'],['פפריקה מעושנת','חצי כפית'],['כמון','חצי כפית'],['מלח','—']],
+    steps:['מנגבים את הקטניות היטב עם נייר סופג.','מערבבים עם שמן זית ותבלינים.','אופים 200° כ-20 דקות, מנערים פעמיים, עד פריכות.'],
+    tip:'ככל שיותר יבשות לפני הכניסה לתנור — יותר פריכות. לא לכסות אחרי אפייה.',
+  },
+  {
+    name: 'ממרח טופו',
+    keep: 'נשמר 5 ימים במקרר',
+    desc: 'טופו רך עם שום, שמן זית וזעתר — ממרח עשיר, בסיסי ומהיר.',
+    uses: ['על קרקרים','לסלטים','כבסיס לצלחת','במקום גבינה'],
+    pantryKeys: ['טופו'],
+    ingredients:[['טופו רך (קדיתא)','300 גרם'],['שום','שן'],['שמן זית','2 כפות'],['זעתר','כפית'],['שמרי בירה','כף'],['לימון','חצי'],['מלח','—']],
+    steps:['שמים הכל בבלנדר.','טוחנים עד חלק לגמרי.','טועמים ומאזנים.'],
+    tip:'אפשר להוסיף מלפפון מגורד לגרסת ציזיקי. לפזר שמן זית וזעתר מעל בהגשה.',
+  },
+];
+
+function renderSides(){
+  const grid=document.getElementById('sidesGrid');
+  grid.innerHTML=SIDES.map((s,i)=>{
+    const missing=(s.pantryKeys||[]).filter(k=>!pantryChecked[k]);
+    return `<div class="side-card" onclick="openSideModal(${i})">
+      <div class="side-header">
+        <div>
+          <span class="cat-badge cat-בצד">בצד</span>
+          <div class="side-title">${s.name}</div>
+          <div class="side-keep">${s.keep}</div>
+        </div>
+        ${missing.length?`<div class="missing-tag" style="margin:0">חסר: ${missing.join(', ')}</div>`:'<div style="font-size:10px;color:var(--green)">✓ זמין</div>'}
+      </div>
+      <div class="side-desc">${s.desc}</div>
+      <div class="side-uses">${s.uses.map(u=>`<span class="side-use-tag">${u}</span>`).join('')}</div>
+    </div>`;
+  }).join('');
+}
+
+function openSideModal(i){
+  const s=SIDES[i];
+  const missing=(s.pantryKeys||[]).filter(k=>!pantryChecked[k]);
+  document.getElementById('modalInner').innerHTML=`
+    <div class="modal-header">
+      <div><span class="cat-badge cat-בצד">בצד</span><h2>${s.name}</h2></div>
+      <button class="close-btn" onclick="closeModal()">×</button>
+    </div>
+    <div style="font-size:11px;color:var(--text3);margin-bottom:4px">${s.keep}</div>
+    ${missing.length?`<div class="missing-tag" style="margin-bottom:8px">חסר: ${missing.join(', ')}</div>`:''}
+    <p style="font-size:12px;color:var(--text2);margin-bottom:.75rem;line-height:1.5">${s.desc}</p>
+    <div class="side-uses" style="margin-bottom:.75rem">${s.uses.map(u=>`<span class="side-use-tag">${u}</span>`).join('')}</div>
+    <h3 style="font-size:11px;font-weight:600;color:var(--text2);margin:.5rem 0 4px;text-transform:uppercase;letter-spacing:.5px">מרכיבים</h3>
+    <table class="ingr-table">${s.ingredients.map(([n,q])=>`<tr><td>${n}</td><td>${q||''}</td></tr>`).join('')}</table>
+    <h3 style="font-size:11px;font-weight:600;color:var(--text2);margin:.5rem 0 4px;text-transform:uppercase;letter-spacing:.5px">הכנה</h3>
+    ${s.steps.map((st,i)=>`<div class="step"><span class="step-n">${i+1}</span>${st}</div>`).join('')}
+    ${s.tip?`<div class="tip-box">💡 ${s.tip}</div>`:''}`;
+  document.getElementById('modal').style.display='flex';
+}
+
+renderPantry();
+renderPrinciples();
+renderSides();
+renderWeek();
+
+if('serviceWorker' in navigator){
+  navigator.serviceWorker.register('sw.js').catch(()=>{});
+}
+
+</script>
+</body>
+</html>
