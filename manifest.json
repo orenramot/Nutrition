@@ -1,6 +1,6 @@
 {
-  "name": "מטבח מאושר",
-  "short_name": "מטבח מאושר",
+  "name": "לאכול פשוט",
+  "short_name": "לאכול פשוט",
   "description": "תכנון תזונה שבועי חכם",
   "start_url": "./index.html",
   "display": "standalone",
