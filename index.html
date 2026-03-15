@@ -37,6 +37,7 @@ body{font-family:'Heebo',sans-serif;background:var(--bg);color:var(--text);min-h
 .p-item-row{display:flex;align-items:center;gap:7px;font-size:13px;padding:3px 0;cursor:pointer;}
 .p-item-row input{width:13px;height:13px;cursor:pointer;flex-shrink:0;accent-color:var(--green);}
 .p-item-row.checked label{text-decoration:line-through;color:var(--text3);}
+.p-item-row.checked{color:var(--text3);}
 /* WEEK */
 .week-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:5px;margin-bottom:.5rem;}
 .day-col{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius);padding:7px 5px;}
@@ -106,7 +107,50 @@ body{font-family:'Heebo',sans-serif;background:var(--bg);color:var(--text);min-h
 .picker-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:.75rem;}
 .picker-item{font-size:12px;padding:8px 10px;background:var(--surface2);border:0.5px solid var(--border);border-radius:var(--radius);cursor:pointer;line-height:1.4;}
 .picker-item:hover{border-color:var(--border2);}
-@media(max-width:480px){.week-grid{grid-template-columns:repeat(4,minmax(0,1fr));}.pantry-grid{grid-template-columns:1fr 1fr;}}
+/* SMART TIMING */
+.cook-phases{display:flex;flex-direction:column;gap:10px;margin-bottom:1.25rem;}
+.phase-card{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;transition:border-color .15s;}
+.phase-card.phase-active{border-color:var(--green);box-shadow:0 0 0 3px var(--green-light);}
+.phase-card.phase-done{opacity:.6;}
+.phase-header{display:flex;align-items:center;gap:10px;padding:12px 14px;cursor:pointer;}
+.phase-icon{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;background:var(--surface2);}
+.phase-card.phase-active .phase-icon{background:var(--green-light);}
+.phase-card.phase-done .phase-icon{background:var(--green);color:white;}
+.phase-title{font-size:13px;font-weight:500;flex:1;}
+.phase-time-badge{font-size:11px;color:var(--green);font-weight:500;background:var(--green-light);padding:3px 8px;border-radius:20px;white-space:nowrap;}
+.phase-time-badge.running{background:var(--green);color:white;animation:pulse 1.5s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.7;}}
+.phase-body{padding:0 14px 12px;display:none;}
+.phase-card.phase-open .phase-body{display:block;}
+.phase-steps{list-style:none;margin-bottom:8px;}
+.phase-step{font-size:12px;color:var(--text2);padding:3px 0;display:flex;gap:8px;line-height:1.4;}
+.phase-step::before{content:'→';color:var(--green);flex-shrink:0;}
+.parallel-note{font-size:11px;background:#FEF3E2;color:#7D5A20;border-radius:6px;padding:5px 9px;margin-bottom:8px;}
+.timer-row{display:flex;align-items:center;gap:8px;margin-top:8px;}
+.timer-btn{padding:6px 14px;border:0.5px solid var(--green-mid);border-radius:var(--radius);background:var(--green-light);color:var(--green);font-size:12px;font-weight:500;cursor:pointer;font-family:'Heebo',sans-serif;}
+.timer-btn:hover{background:var(--green-mid);}
+.timer-display{font-size:13px;font-weight:500;color:var(--green);min-width:50px;}
+.timer-done-badge{font-size:11px;background:var(--green);color:white;border-radius:20px;padding:2px 8px;}
+.cook-summary{background:var(--green-light);border-radius:var(--radius);padding:10px 14px;margin-bottom:1rem;}
+.cook-summary-title{font-size:13px;font-weight:500;color:var(--green);margin-bottom:4px;}
+.cook-summary-detail{font-size:12px;color:var(--green);}
+/* WEEK PLAN - 7 categories */
+.week-plan-grid{display:flex;flex-direction:column;gap:8px;}
+.week-cat-card{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;transition:border-color .15s;}
+.week-cat-card.selected{border-color:var(--green);border-width:1.5px;}
+.week-cat-card.selected .week-cat-icon{background:var(--green-light);color:var(--green);}
+.week-cat-header{display:flex;align-items:center;gap:10px;padding:12px 14px;}
+.week-cat-icon{width:32px;height:32px;border-radius:8px;background:var(--surface2);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--text2);}
+.week-cat-info{flex:1;min-width:0;}
+.week-cat-label{font-size:10px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px;}
+.week-cat-name{font-size:13px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.week-cat-name.empty{color:var(--text3);font-style:italic;font-weight:400;}
+.week-cat-actions{display:flex;gap:6px;flex-shrink:0;}
+.week-cat-btn{background:none;border:0.5px solid var(--border2);border-radius:8px;padding:5px 9px;font-size:11px;cursor:pointer;font-family:'Heebo',sans-serif;color:var(--text2);}
+.week-cat-btn:hover{background:var(--surface2);}
+.week-cat-btn.open-btn{background:var(--green-light);color:var(--green);border-color:var(--green-mid);}
+.fresh-reminder{display:flex;align-items:center;gap:8px;background:var(--green-light);border-radius:var(--radius);padding:10px 14px;margin-top:1rem;font-size:12px;color:var(--green);}
+@media(max-width:480px){.pantry-grid{grid-template-columns:1fr 1fr;}}
 </style>
 </head>
 <body>
@@ -124,21 +168,23 @@ body{font-family:'Heebo',sans-serif;background:var(--bg);color:var(--text);min-h
   </div>
   <div id="week" class="section">
     <div class="top-bar">
-      <h2>תפריט שבועי</h2>
+      <h2>מה מוכן השבוע</h2>
       <div class="btn-row">
-        <button class="btn" onclick="resetWeek()">איפוס</button>
-        <button class="btn btn-green" onclick="buildWeek()">בנה תפריט ↗</button>
+        <button class="btn" onclick="resetWeekPlan()">איפוס</button>
+        <button class="btn btn-green" onclick="buildWeekPlan()">הצע ↗</button>
       </div>
     </div>
-    <div class="week-grid" id="weekGrid"></div>
-    <p class="hint">לחצי על ארוחה לפתיחת המתכון · על ⇄ להחלפה · על + להוספה</p>
+    <p style="font-size:12px;color:var(--text2);margin-bottom:1rem">7 קטגוריות הכנה שמכסות שבוע שלם. לחצי על כרטיס לפתיחת המתכון, על ⇄ להחלפה.</p>
+    <div id="weekPlanGrid"></div>
+    <div class="fresh-reminder" id="freshReminder" style="display:none">
+      <span>🌿</span>
+      <span>לפני אכילה — הוסיפי ירוק טרי: פטרוזיליה, כוסברה, בצל ירוק, לימון</span>
+    </div>
   </div>
   <div id="cookday" class="section">
-    <div class="top-bar"><h2>יום הבישול</h2></div>
-    <div class="cook-total" id="cookTotal">בני תפריט כדי לראות את תכנית הבישול</div>
-    <div class="cook-timeline" id="cookTimeline"></div>
-    <div class="section-divider">צ׳ק ליסט</div>
-    <div class="prep-grid" id="prepGrid"></div>
+    <div class="top-bar"><h2>יום הבישול</h2><button class="btn btn-green" id="startCookBtn" onclick="startCooking()" style="display:none">התחילי לבשל ▶</button></div>
+    <div class="cook-total" id="cookTotal">בחרי מה להכין כדי לראות את תכנית הבישול</div>
+    <div id="cookTimeline"></div>
   </div>
   <div id="recipes" class="section">
     <div class="top-bar"><h2>מתכונים</h2></div>
@@ -262,7 +308,7 @@ const RECIPES={
     tip:'לחתוך ירקות גס. לשפוך טחינה רק אחרי שהירקות כמעט מוכנים.',
     ingredients:[['קישוא','2'],['גמבה','1'],['עגבניות','2'],['דלעת/בטטה','פרוסה'],['כרובית','חצי'],['בצל','1'],['גזר','1'],['טחינה גולמית מדוללת','חצי כוס'],['שמן זית','—'],['מלח','—']],
     steps:['מחממים תנור 200° טורבו.','חותכים ירקות לחתיכות גסות. מניחים בתבנית, מתבלים בשמן זית ומלח.','אופים עד ריכוך (כ-25 דקות).','מוציאים, שופכים טחינה מדוללת מעל. מחזירים לתנור לעוד 10 דקות.']},
-  'פשטידת תפו"א וקטניות מונבטות':{cat:'קציצות',time:60,pantryKeys:['תפוחי אדמה','שעועית מש'],
+  'פשטידת תפוא וקטניות מונבטות':{cat:'קציצות',time:60,pantryKeys:['תפוחי אדמה','שעועית מש'],
     source:'mazon-izun.com',
     tip:'הנביטה הופכת קטניות לקלות לעיכול ומשפרת ספיגת ברזל. אפשר להכין יום מראש.',
     ingredients:[['תפוחי אדמה מבושלים','4 בינוניים'],['אורז מלא מושרה ומונבט','חצי כוס'],['אפונה צהובה מונבטת','כוס'],['גרעיני תירס טריים','2 קלחים'],['כוסברה קצוצה','צרור'],['בצל קצוץ','1'],['מלח','כפית']],
@@ -292,16 +338,19 @@ const SIDES=[
   {name:'ממרח חרדל ביתי',cat:'מותסס',keep:'נשמר חודשים במקרר',desc:'חרדל מותסס ביתי — חריף, עמוק ובלי חומרים משמרים.',uses:['לסלטים','על קרקרים','לרטבים','עם קציצות'],pantryKeys:['חומץ תפוחים'],ingredients:[['גרגרי חרדל','50 גר׳'],['מים','100 מ"ל'],['מלח','6 גר׳ (3%)'],['שיני שום כתושות (אופציונלי)','2']],steps:['להשרות את החרדל 12 שעות.','לערבב את הגרגרים עם השום.','להעביר לצנצנת פתוחה עם בד — לערבב מדי יום.','כשמתחילה תסיסה — לאטום ולהעביר למקרר.'],tip:'אפשר לטחון חלק מהגרגרים לקבלת מרקם קרמי. לתת שבוע-שבועיים לפיתוח טעם.'},
 ];
 const PANTRY_ITEMS={
-  'דגנים':['אורז בסמטי מלא','אורז בר','כוסמת ירוקה','כוסמת קלויה','פריקי','קינואה (הרדוף, כרם, תבואות)','דוחן','קוסקוס מלא','אטריות סובה','פסטה כוסמין מלא','בורגול עבה'],
+  'דגנים':['אורז בסמטי מלא','אורז בר','כוסמת ירוקה','כוסמת קלויה','פריקי','קינואה (הרדוף, כרם, תבואות)','דוחן','קוסקוס מלא','אטריות סובה','פסטה כוסמין מלא','בורגול עבה','אמרנט'],
   'קטניות':['עדשים כתומות','עדשים שחורות','עדשים חומות','שעועית אדומה','שעועית לבנה','שעועית שחורה','שעועית מש','חומוס','לוביה','מאנג דאל'],
   'אגוזים וזרעים':['ברזיל','מקדמיה','פקאן','קשיו','פיסטוק','שקדים','צנובר','צ\'יה','שומשום שחור','שומשום מלא','קצח','פשתן','זרעי חמניה','זרעי דלעת','זרעי המפ'],
   'תבלינים':['אבקת שום','אבקת ג\'ינג\'ר','פפריקה מעושנת','כורכום','טימין','כמון','כוסברה טחונה','זעתר','רוזמרין','אורגנו','פלפל שחור','ראס אל חנות','זרעי כמון','זרעי כוסברה'],
-  'מזווה':['שמן זית','חמאת קוקוס','חמאת בוטנים','חלב סויה (דה בריג\')','טופו','סויה תמרי','סילאן','מייפל','ממרח תמרים','חמאת שקדים','תמרהינדי','שמרי בירה (תבואות)','קקאו','קקאו ניבס','קמח חומוס','קמח כוסמין מלא','קמח שקדים','קמח עדשים','ספירולינה','טחינה (אמארה)','קרם קוקוס','חומץ תפוחים'],
-  'מקפיא':['פירות קפואים','אפונה (ליב)','שעועית (ליב)','ספירולינה קפואה'],
-  'ירקות טריים':['דלעת','כרוב לבן','כרוב סגול','בצל ירוק','כרישה','שום','סלרי - מקלות ושורש','שורש פטרוזיליה','פטרוזיליה','רוקט','תפוחי אדמה','בטטה','סלק','בצל לבן','בצל סגול','גזר','קולורבי','ברוקולי','קייל','מנגולד','תרד','לימון','קישוא/זוקיני','עגבניות שרי','חסה','שמיר','כוסברה','ג\'ינג\'ר טרי','שורש סלרי'],
+  'מזווה':['שמן זית','חמאת קוקוס','חמאת בוטנים','חלב סויה (דה בריג\')','טופו','סויה תמרי','סילאן','מייפל','ממרח תמרים','חמאת שקדים','תמרהינדי','שמרי בירה (תבואות)','קקאו','קקאו ניבס','אבקת קקאו אורגנית','קמח חומוס','קמח כוסמין מלא','קמח שקדים','קמח עדשים','ספירולינה','טחינה (אמארה)','קרם קוקוס','חומץ תפוחים'],
+  'מקפיא':['פירות קפואים','אפונה (ליב)','שעועית (ליב)','ספירולינה קפואה','אסאי קפוא','תירס קפוא'],
+  'ירקות טריים':['דלעת','כרוב לבן','כרוב סגול','בצל ירוק','כרישה','שום','סלרי - מקלות ושורש','שורש פטרוזיליה','פטרוזיליה','רוקט','תפוחי אדמה','בטטה','סלק','בצל לבן','בצל סגול','גזר','קולורבי','ברוקולי','קייל','מנגולד','תרד','לימון','קישוא/זוקיני','עגבניות שרי','חסה','שמיר','כוסברה','ג\'ינג\'ר טרי','שורש סלרי','גמבה','כרובית','צנונית','מנגו','אננס'],
 };
 let pantryChecked=JSON.parse(localStorage.getItem('pantry_v1')||'{}');
-let currentChosen=[],weekPlan={},weekSnack='';
+let currentChosen=[],weekSnack='';
+let savedWeek=JSON.parse(localStorage.getItem('week_plan')||'null');
+let weekPlan=savedWeek||{};
+function saveWeek(){try{localStorage.setItem('week_plan',JSON.stringify(weekPlan));}catch(e){}}
 let recentHistory=JSON.parse(localStorage.getItem('recent_history')||'[]');
 let activeRecipeFilter='הכל';
 function savePantry(){try{localStorage.setItem('pantry_v1',JSON.stringify(pantryChecked));}catch(e){}}
@@ -315,112 +364,332 @@ function showTab(id,el){
   document.getElementById(id).classList.add('active');
   el.classList.add('active');
 }
-function buildWeek(){
-  const all=Object.entries(RECIPES).map(([name,r])=>({name,...r,score:recipeScore(r)}));
-  const mains=all.filter(r=>r.cat!=='נשנוש');
-  const snacks=all.filter(r=>r.cat==='נשנוש');
-  function ds(r){const w=weeksSince(r.name);const b=w===Infinity?0.6:w===1?0:w===2?0.3:0.5;return r.score+b;}
-  let chosen=[];
-  ['תבשיל','קציצות','סלט'].forEach(cat=>{const o=mains.filter(r=>r.cat===cat).sort((a,b)=>ds(b)-ds(a));if(o.length)chosen.push(o[0]);});
-  if(chosen.length<4){const e=mains.sort((a,b)=>ds(b)-ds(a)).find(r=>!chosen.find(c=>c.name===r.name));if(e)chosen.push(e);}
-  weekSnack=snacks.sort((a,b)=>ds(b)-ds(a))[0]?.name||'';
-  saveHistory(chosen.map(r=>r.name).concat(weekSnack?[weekSnack]:[]));
-  currentChosen=chosen;
-  weekPlan={};
-  DAYS.forEach((day,i)=>{weekPlan[day]={צהריים:chosen[i%chosen.length].name,ערב:chosen[(i+1)%chosen.length].name};});
-  renderWeek();renderCookDay();renderPrepList();
-}
-function resetWeek(){
-  weekPlan={};currentChosen=[];weekSnack='';
-  renderWeek();
-  document.getElementById('cookTotal').textContent='בני תפריט כדי לראות את תכנית הבישול';
-  document.getElementById('cookTimeline').innerHTML='';
-  document.getElementById('prepGrid').innerHTML='';
-}
-function renderWeek(){
-  const grid=document.getElementById('weekGrid');
-  grid.innerHTML='';
-  DAYS.forEach(day=>{
-    const col=document.createElement('div');col.className='day-col';
-    const meals=weekPlan[day]||{};
-    col.innerHTML=`<div class="day-name">${day}</div>`;
-    ['צהריים','ערב'].forEach(m=>{
-      const val=meals[m];
-      const lbl=document.createElement('div');lbl.className='meal-label';lbl.textContent=m;
-      const wrap=document.createElement('div');wrap.style.cssText='position:relative;margin-bottom:3px;';
-      const chip=document.createElement('div');
-      chip.className='meal-chip'+(val?'':' empty');
-      chip.style.paddingLeft=val?'18px':'';
-      chip.textContent=val||'+';
-      chip.onclick=val?()=>openRecipeModal(val):()=>openPicker(day,m);
-      wrap.appendChild(chip);
-      if(val){
-        const swap=document.createElement('button');
-        swap.textContent='⇄';
-        swap.title='החלף';
-        swap.style.cssText='position:absolute;left:2px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:11px;color:var(--text3);padding:0;line-height:1;';
-        swap.onclick=(e)=>{e.stopPropagation();openSwap(day,m,val);};
-        wrap.appendChild(swap);
-      }
-      col.appendChild(lbl);col.appendChild(wrap);
-    });
-    if(weekSnack){
-      const sw=document.createElement('div');sw.style.cssText='position:relative;margin-top:3px;';
-      const s=document.createElement('div');s.className='snack-chip';s.style.paddingLeft='16px';s.textContent='נשנוש: '+weekSnack;s.onclick=()=>openRecipeModal(weekSnack);
-      const sb=document.createElement('button');sb.textContent='⇄';sb.title='החלף נשנוש';
-      sb.style.cssText='position:absolute;left:2px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:11px;color:#4A3A6B;padding:0;line-height:1;';
-      sb.onclick=(e)=>{e.stopPropagation();openSnackSwap();};
-      sw.appendChild(s);sw.appendChild(sb);col.appendChild(sw);
-    }
-    grid.appendChild(col);
-  });
+// ============================================================
+// WEEK PLAN — 7 categories
+// ============================================================
+const WEEK_CATS = [
+  { id:'steam',    icon:'steam',   label:'ירקות מאודים',    cat:null,       defaultKey:'steam' },
+  { id:'grains',   icon:'grains',  label:'דגנים מבושלים',   cat:null,       defaultKey:'grains' },
+  { id:'stew',     icon:'stew',    label:'תבשיל',           cat:'תבשיל',    defaultKey:null },
+  { id:'patties',  icon:'patties', label:'קציצות',          cat:'קציצות',   defaultKey:null },
+  { id:'salad',    icon:'salad',   label:'הכנות סלט',       cat:'סלט',      defaultKey:null },
+  { id:'spread',   icon:'spread',  label:'ממרח',            cat:'בצד',      defaultKey:null },
+  { id:'snack',    icon:'snack',   label:'נשנוש',           cat:'נשנוש',    defaultKey:null },
+];
+
+const CAT_ICONS = {
+  steam:   '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M9 3c0 2-2 2-2 4s2 2 2 4-2 2-2 4"/><path d="M15 3c0 2-2 2-2 4s2 2 2 4-2 2-2 4"/><path d="M3 12h18"/></svg>',
+  grains:  '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M12 2v20M7 6c0 0 2 1 5 1s5-1 5-1M7 10c0 0 2 1 5 1s5-1 5-1M7 14c0 0 2 1 5 1s5-1 5-1"/></svg>',
+  stew:    '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M4 11h16v2a8 8 0 01-16 0v-2z"/><path d="M8 11V8a4 4 0 018 0v3"/><line x1="2" y1="11" x2="22" y2="11"/></svg>',
+  patties: '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><ellipse cx="12" cy="12" rx="9" ry="5"/><path d="M3 12v2a9 5 0 0018 0v-2"/></svg>',
+  salad:   '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M12 22V12M12 12C12 7 7 4 3 6M12 12C12 7 17 4 21 6M12 12C9 10 6 12 6 15"/></svg>',
+  spread:  '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="6" y="3" width="12" height="16" rx="2"/><path d="M6 10h12M10 14h4"/><circle cx="12" cy="7" r="1"/></svg>',
+  store:   '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M20 7H4a2 2 0 00-2 2v10a2 2 0 002 2h16a2 2 0 002-2V9a2 2 0 00-2-2z"/><path d="M16 3l2 4M8 3l-2 4M12 3v4"/></svg>',
+  snack:   '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="3" y="8" width="18" height="12" rx="2"/><path d="M7 8V6a5 5 0 0110 0v2"/></svg>',
+};
+
+// Special non-recipe items
+const SPECIAL_ITEMS = {
+  steam: {
+    name:'ירקות מאודים',
+    tip:'שורשים 40 דקות · בינוניים 25 דקות · ירוקים 5 דקות. לחמם — 2 דקות אידוי בלבד.',
+    ingredients:[['שורשים (סלק, קולורבי, תפו"א)','לפי בחירה'],['בינוניים (בטטה, קישוא)','לפי בחירה'],['ירוקים (ברוקולי, כרוב)','לפי בחירה']],
+    steps:['שורשים לסיר אידוי: 40 דקות.','בטטה, קישוא, כרובית: 25 דקות.','ברוקולי, כרוב, שעועית ירוקה: 5 דקות.','מצננים ושומרים בקופסאות נפרדות.'],
+    time:45, cat:'הכנה'
+  },
+  grains: {
+    name:'2 סוגי דגנים',
+    tip:'קינואה כמו פסטה 12 דקות — לסנן שעה. פריקי/כוסמת עם 2 כוסות מים 15 דקות.',
+    ingredients:[['קינואה','כוס'],['פריקי / כוסמת / בורגול','כוס']],
+    steps:['קינואה: 12 דקות במים רבים. לסנן לפחות שעה.','פריקי/כוסמת: עם 2 כוסות מים, אש נמוכה 15 דקות.','לאחסן בנפרד במקרר.'],
+    time:20, cat:'הכנה'
+  }
+};
+
+let weekPlanChoices = JSON.parse(localStorage.getItem('week_choices')||'{}');
+// weekPlanChoices = { steam: 'steam', grains: 'grains', stew: 'תבשיל ירוקים', ... }
+
+function saveWeekChoices(){ try{localStorage.setItem('week_choices',JSON.stringify(weekPlanChoices));}catch(e){} }
+
+function getItemForCat(catId){
+  const name = weekPlanChoices[catId];
+  if(!name) return null;
+  if(name==='steam') return SPECIAL_ITEMS.steam;
+  if(name==='grains') return SPECIAL_ITEMS.grains;
+  return RECIPES[name]||null;
 }
 
-function openSwap(day,meal,currentName){
-  const cur=RECIPES[currentName];
-  if(!cur) return;
-  // מציא חלופות מאותה קטגוריה תזונתית
-  const alts=Object.entries(RECIPES)
-    .filter(([n,r])=>n!==currentName && r.cat===cur.cat)
-    .sort((a,b)=>recipeScore(b[1])-recipeScore(a[1]));
-  document.getElementById('modalInner').innerHTML=`
-    <div class="modal-handle"></div>
-    <div class="modal-header"><h2>החלפת ${currentName}</h2><button class="close-btn" onclick="closeModal()">×</button></div>
-    <p style="font-size:12px;color:var(--text2);margin-bottom:.75rem">חלופות מאותה קטגוריה (${cur.cat}):</p>
-    <div class="picker-grid">${alts.map(([name,r])=>{
-      const sc=Math.round(recipeScore(r)*100);const m=getMissing(r);
-      return `<div class="picker-item" onclick="assignMeal('${day}','${meal}','${name}')">
-        <span class="cat-badge cat-${r.cat}">${r.cat}</span><br>${name}
-        <div class="score-bar"><div class="score-fill" style="width:${sc}%"></div></div>
-        <span style="font-size:10px;color:${m.length?'#8B2E2E':'#2D6A4F'}">${m.length?'חסר: '+m.join(', '):'הכל זמין'}</span>
+function buildWeekPlan(){
+  const all = Object.entries(RECIPES).map(([name,r])=>({name,...r,score:recipeScore(r)}));
+  function ds(r){ const w=weeksSince(r.name); const b=w===Infinity?0.6:w===1?0:w===2?0.3:0.5; return r.score+b; }
+
+  // Auto-pick best for each category
+  weekPlanChoices = {};
+  weekPlanChoices.steam = 'steam';
+  weekPlanChoices.grains = 'grains';
+
+  ['stew','patties','salad','snack'].forEach(catId=>{
+    const cat = WEEK_CATS.find(c=>c.id===catId)?.cat;
+    if(!cat) return;
+    const best = all.filter(r=>r.cat===cat).sort((a,b)=>ds(b)-ds(a))[0];
+    if(best) weekPlanChoices[catId] = best.name;
+  });
+
+  // Spread: pick available side
+  const bestSpread = SIDES.filter(s=>(s.pantryKeys||[]).every(k=>pantryChecked[k]))[0]
+    || SIDES.sort((a,b)=>((b.pantryKeys||[]).filter(k=>pantryChecked[k]).length/(b.pantryKeys||[1]).length) - ((a.pantryKeys||[]).filter(k=>pantryChecked[k]).length/(a.pantryKeys||[1]).length))[0];
+  if(bestSpread) weekPlanChoices.spread = bestSpread.name;
+
+  saveWeekChoices();
+  // save to history
+  const names = Object.values(weekPlanChoices).filter(n=>n&&n!=='steam'&&n!=='grains');
+  saveHistory(names);
+
+  renderWeekPlan();
+  renderCookDay();
+  document.getElementById('freshReminder').style.display='flex';
+}
+
+function resetWeekPlan(){
+  weekPlanChoices={};
+  saveWeekChoices();
+  renderWeekPlan();
+  renderCookDay();
+  document.getElementById('freshReminder').style.display='none';
+}
+
+function renderWeekPlan(){
+  const grid = document.getElementById('weekPlanGrid');
+  if(!grid) return;
+
+  const hasAny = Object.keys(weekPlanChoices).length > 0;
+  if(hasAny) document.getElementById('freshReminder').style.display='flex';
+
+  grid.innerHTML = '<div class="week-plan-grid">' +
+    WEEK_CATS.map(cat=>{
+      const chosen = weekPlanChoices[cat.id];
+      const item = chosen ? getItemForCat(cat.id) : null;
+      const missing = item && item.pantryKeys ? item.pantryKeys.filter(k=>!pantryChecked[k]) : [];
+
+      return `<div class="week-cat-card${chosen?' selected':''}">
+        <div class="week-cat-header">
+          <div class="week-cat-icon">${CAT_ICONS[cat.icon]||cat.icon}</div>
+          <div class="week-cat-info">
+            <div class="week-cat-label">${cat.label}</div>
+            <div class="week-cat-name${chosen?'':' empty'}">${item?item.name:'לא נבחר עדיין'}</div>
+            ${missing.length ? `<div style="font-size:10px;color:var(--red);margin-top:2px">חסר: ${missing.join(', ')}</div>` : ''}
+          </div>
+          <div class="week-cat-actions">
+            ${item ? `<button class="week-cat-btn open-btn" onclick="openCatItem('${cat.id}')">פתח</button>` : ''}
+            <button class="week-cat-btn" onclick="openCatSwap('${cat.id}')">⇄</button>
+          </div>
+        </div>
       </div>`;
-    }).join('')}${alts.length===0?'<p style="font-size:12px;color:var(--text3);grid-column:1/-1">אין חלופות במאגר לקטגוריה זו</p>':''}</div>`;
+    }).join('') +
+  '</div>';
+}
+
+function openCatItem(catId){
+  const item = getItemForCat(catId);
+  if(!item) return;
+  // Check if it's a SIDES item
+  const sideIdx = SIDES.findIndex(s=>s.name===item.name);
+  if(sideIdx>=0){ openSideModal(sideIdx); return; }
+  // Otherwise open recipe modal — find by name
+  const rName = weekPlanChoices[catId];
+  if(rName && rName!=='steam' && rName!=='grains' && RECIPES[rName]){ openRecipeModal(rName); return; }
+  // Special item
+  const mi = document.getElementById('modalInner');
+  mi.innerHTML=`
+    <div class="modal-handle"></div>
+    <div class="modal-header"><div><span class="cat-badge cat-הכנה">הכנה</span><h2>${item.name}</h2></div><button class="close-btn" onclick="closeModal()">×</button></div>
+    <p style="font-size:11px;color:var(--text3);margin-bottom:.5rem">זמן הכנה: ~${item.time} דקות</p>
+    <h3 style="font-size:11px;font-weight:600;color:var(--text2);margin:.5rem 0 4px;text-transform:uppercase">מרכיבים</h3>
+    <table class="ingr-table">${item.ingredients.map(([n,q])=>`<tr><td>${n}</td><td>${q}</td></tr>`).join('')}</table>
+    <h3 style="font-size:11px;font-weight:600;color:var(--text2);margin:.5rem 0 4px;text-transform:uppercase">הוראות</h3>
+    ${item.steps.map((s,i)=>`<div class="step"><span class="step-n">${i+1}</span>${s}</div>`).join('')}
+    ${item.tip?`<div class="tip-box">💡 ${item.tip}</div>`:''}`;
   document.getElementById('modal').style.display='flex';
 }
-function renderCookDay(){
-  const blocks=[];
-  blocks.push({label:'יום לפני — ערב',time:'5 דקות',detail:'השרייה: קטניות + אגוזים לגבינה. הנבטות.',active:false});
-  blocks.push({label:'ירקות מאודים',time:'40 דקות (מקביל)',detail:'שורשים 40 דקות · בינוניים 25 דקות · ירוקים 5 דקות.',active:true});
-  blocks.push({label:'2 סוגי דגנים',time:'15 דקות',detail:'קינואה 12 דקות · כוסמת/פריקי עם 2 כוסות מים.',active:true});
-  let total=55;
-  currentChosen.forEach(r=>{
-    const m=getMissing(r);
-    blocks.push({label:r.name,time:r.time+' דקות',detail:r.steps.slice(0,2).join(' · '),missing:m.length?'חסר: '+m.join(', '):'',active:true,recipeName:r.name});
-    total+=r.time;
-  });
-  if(weekSnack){const sr=RECIPES[weekSnack];blocks.push({label:'נשנוש: '+weekSnack,time:(sr?.time||20)+' דקות',detail:'להכין לכל השבוע.',active:true,recipeName:weekSnack});total+=sr?.time||20;}
-  const real=Math.round(total*0.6);
-  document.getElementById('cookTotal').textContent=`זמן משוער: כ-${real} דקות (כ-${Math.ceil(real/60)} שעות)`;
-  document.getElementById('cookTimeline').innerHTML=blocks.map(b=>`
-    <div class="cook-block${b.active?' active':''}">
-      <div class="cook-card${b.recipeName?' clickable':''}" ${b.recipeName?`onclick="openRecipeModal('${b.recipeName}')"`:''}>
-        <div class="cook-time">${b.time}</div>
-        <h3>${b.label}</h3>
-        <div class="cook-detail">${b.detail}</div>
-        ${b.missing?`<div class="missing-tag">${b.missing}</div>`:''}
-      </div>
-    </div>`).join('');
+
+function openCatSwap(catId){
+  const cat = WEEK_CATS.find(c=>c.id===catId);
+  if(!cat) return;
+
+  let options = [];
+
+  if(catId==='steam' || catId==='grains'){
+    // No swap for these
+    return;
+  }
+
+  if(catId==='spread'){
+    options = SIDES.map((s,i)=>({
+      name: s.name,
+      missing: (s.pantryKeys||[]).filter(k=>!pantryChecked[k]),
+      score: (s.pantryKeys||[]).filter(k=>pantryChecked[k]).length / Math.max(1,(s.pantryKeys||[]).length),
+      isSide: true, idx: i
+    })).sort((a,b)=>b.score-a.score);
+  } else {
+    options = Object.entries(RECIPES)
+      .filter(([n,r])=>r.cat===cat.cat)
+      .map(([name,r])=>({name, missing:getMissing(r), score:recipeScore(r)}))
+      .sort((a,b)=>b.score-a.score);
+  }
+
+  const mi = document.getElementById('modalInner');
+  mi.innerHTML=`
+    <div class="modal-handle"></div>
+    <div class="modal-header"><h2>בחרי ${cat.label}</h2><button class="close-btn" onclick="closeModal()">×</button></div>
+    <div class="picker-grid" style="grid-template-columns:1fr">
+      ${options.map(opt=>`
+        <div class="picker-item" style="display:flex;align-items:center;justify-content:space-between" onclick="setCatChoice('${catId}','${opt.name.replace(/'/g,"\\'")}')">
+          <div>
+            <div style="font-size:13px;font-weight:500">${opt.name}</div>
+            ${opt.missing.length ? `<div style="font-size:10px;color:var(--red)">חסר: ${opt.missing.join(', ')}</div>` : `<div style="font-size:10px;color:var(--green)">✓ הכל זמין</div>`}
+          </div>
+          <div class="score-bar" style="width:60px;flex-shrink:0"><div class="score-fill" style="width:${Math.round(opt.score*100)}%"></div></div>
+        </div>`).join('')}
+    </div>`;
+  document.getElementById('modal').style.display='flex';
 }
+
+function setCatChoice(catId, name){
+  weekPlanChoices[catId] = name;
+  saveWeekChoices();
+  closeModal();
+  renderWeekPlan();
+  renderCookDay();
+}
+
+// Keep old buildWeek/resetWeek aliases for backward compat
+function buildWeek(){ buildWeekPlan(); }
+function resetWeek(){ resetWeekPlan(); }
+
+function renderCookDay(){
+  if(!Object.keys(weekPlanChoices).length){
+    document.getElementById('cookTotal').textContent='בני תפריט כדי לראות את תכנית הבישול';
+    document.getElementById('cookTimeline').innerHTML='';
+    document.getElementById('startCookBtn').style.display='none';
+    return;
+  }
+
+  const phases=buildSmartSchedule();
+  
+  // Calculate real time (parallel phases save time)
+  const parallelSavings=phases.filter(p=>p.parallel&&!p.isPrep).reduce((s,p)=>s+p.mins*0.7,0);
+  const totalSeq=phases.filter(p=>!p.isPrep).reduce((s,p)=>s+p.mins,0);
+  const realMins=Math.round(totalSeq-parallelSavings);
+
+  document.getElementById('cookTotal').textContent='';
+  document.getElementById('startCookBtn').style.display='block';
+  
+  document.getElementById('cookTimeline').innerHTML=`
+    <div class="cook-summary">
+      <div class="cook-summary-title">סה"כ זמן בישול משוער: כ-${realMins} דקות (כ-${Math.ceil(realMins/60)} שעות)</div>
+      <div class="cook-summary-detail">💡 ${phases.filter(p=>p.parallel&&!p.isPrep).length} שלבים רצים במקביל — חוסכים זמן משמעותי</div>
+    </div>
+    <div class="cook-phases" id="cookPhases">
+      ${phases.map((p,i)=>renderPhaseCard(p,i)).join('')}
+    </div>`;
+}
+
+function renderPhaseCard(p,i){
+  const timerState=cookTimers[p.id]||{};
+  const isDone=timerState.done;
+  const isRunning=timerState.running;
+  const isOpen=cookPhaseOpen===i;
+  const elapsed=timerState.elapsed||0;
+  const remaining=Math.max(0, p.mins*60 - elapsed);
+  const mm=String(Math.floor(remaining/60)).padStart(2,'0');
+  const ss=String(remaining%60).padStart(2,'0');
+
+  return `<div class="phase-card${isDone?' phase-done':''}${isRunning?' phase-active':''}${isOpen?' phase-open':''}" id="phase_${i}">
+    <div class="phase-header" onclick="togglePhase(${i})">
+      <div class="phase-icon">${isDone?'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>':(CAT_ICONS[p.icon]||p.icon)}</div>
+      <div class="phase-title">${p.title}${p.missing?` <span style="font-size:10px;background:var(--red-light);color:var(--red);border-radius:4px;padding:1px 5px">חסר</span>`:''}</div>
+      ${isRunning
+        ? `<div class="phase-time-badge running">${mm}:${ss}</div>`
+        : isDone
+          ? `<div class="timer-done-badge">✓ הסתיים</div>`
+          : `<div class="phase-time-badge">${p.mins} דקות</div>`
+      }
+    </div>
+    <div class="phase-body">
+      ${p.note?`<div class="parallel-note">⚡ ${p.note}</div>`:''}
+      ${p.missing?`<div class="missing-tag" style="margin-bottom:8px">חסר: ${p.missing.join(', ')}</div>`:''}
+      <ul class="phase-steps">${p.steps.map(s=>`<li class="phase-step">${s}</li>`).join('')}</ul>
+      <div class="timer-row">
+        ${p.recipeName?`<button class="timer-btn" style="background:var(--surface2);color:var(--text);border-color:var(--border2)" onclick="event.stopPropagation();openRecipeModal('${p.recipeName.replace(/'/g,"\\'")}')">פתח מתכון</button>`:''}
+        ${!isDone && !p.isPrep ? `<button class="timer-btn" onclick="event.stopPropagation();startTimer(${i},'${p.id}',${p.mins})">${isRunning?'עצור':'הפעל טיימר'} ${p.mins} דקות</button>` : ''}
+        ${!isDone?`<button class="timer-btn" style="background:var(--green);color:white;border-color:var(--green)" onclick="event.stopPropagation();markDone(${i},'${p.id}')">סיימתי ✓</button>`:''}
+        ${isRunning?`<div class="timer-display">${mm}:${ss}</div>`:''}
+      </div>
+    </div>
+  </div>`;
+}
+
+function togglePhase(i){
+  cookPhaseOpen = cookPhaseOpen===i ? -1 : i;
+  refreshCookDay();
+}
+
+function markDone(i,id){
+  if(cookTimers[id]?.interval) clearInterval(cookTimers[id].interval);
+  cookTimers[id]={done:true};
+  cookPhaseOpen=i+1; // auto-open next
+  refreshCookDay();
+}
+
+function startTimer(i,id,mins){
+  if(cookTimers[id]?.running){
+    clearInterval(cookTimers[id].interval);
+    cookTimers[id].running=false;
+    cookTimers[id].elapsed=cookTimers[id].elapsed||0;
+  } else {
+    const startTime=Date.now()-(cookTimers[id]?.elapsed||0)*1000;
+    const interval=setInterval(()=>{
+      const elapsed=Math.floor((Date.now()-startTime)/1000);
+      cookTimers[id]={...cookTimers[id],running:true,elapsed,interval};
+      if(elapsed>=mins*60){
+        clearInterval(interval);
+        cookTimers[id]={done:true};
+        // Vibrate if supported
+        if(navigator.vibrate) navigator.vibrate([200,100,200]);
+        refreshCookDay();
+      } else {
+        refreshTimerDisplay(i,id,mins,elapsed);
+      }
+    },1000);
+    cookTimers[id]={running:true,elapsed:cookTimers[id]?.elapsed||0,interval};
+  }
+  refreshCookDay();
+}
+
+function refreshTimerDisplay(i,id,mins,elapsed){
+  const remaining=Math.max(0,mins*60-elapsed);
+  const mm=String(Math.floor(remaining/60)).padStart(2,'0');
+  const ss=String(remaining%60).padStart(2,'0');
+  const badge=document.querySelector(`#phase_${i} .phase-time-badge`);
+  const disp=document.querySelector(`#phase_${i} .timer-display`);
+  if(badge) badge.textContent=mm+':'+ss;
+  if(disp) disp.textContent=mm+':'+ss;
+}
+
+function refreshCookDay(){
+  const phases=buildSmartSchedule();
+  const el=document.getElementById('cookPhases');
+  if(el) el.innerHTML=phases.map((p,i)=>renderPhaseCard(p,i)).join('');
+}
+
+function startCooking(){
+  cookPhaseOpen=1; // open first real phase
+  cookingStarted=true;
+  refreshCookDay();
+  document.getElementById('startCookBtn').textContent='מתבשל... 🍳';
+  document.getElementById('startCookBtn').disabled=true;
+}
+
 function renderPrepList(){
   const bc={'תבשיל':'background:#D8EDDF;color:#2D6A4F','קציצות':'background:#FAEADA;color:#7D4E24','סלט':'background:#D4E9F7;color:#1B4F72','נשנוש':'background:#EAE4F5;color:#4A3A6B','בצד':'background:#FEF3E2;color:#7D5A20'};
   const sections=[];
@@ -544,7 +813,7 @@ function assignMeal(day,meal,name){
   closeModal();
   const used=[...new Set(Object.values(weekPlan).flatMap(d=>Object.values(d)))];
   currentChosen=used.map(n=>({name:n,...RECIPES[n],score:recipeScore(RECIPES[n])})).filter(r=>r.cat&&r.cat!=='נשנוש');
-  renderWeek();renderCookDay();renderPrepList();
+  saveWeek();renderWeek();renderCookDay();renderPrepList();
 }
 function closeModal(){document.getElementById('modal').style.display='none';}
 function renderPantry(){
@@ -567,8 +836,10 @@ function clearPantry(){
   pantryChecked={};savePantry();renderPantry();
 }
 renderPantry();
-renderWeek();
+renderWeekPlan();
 renderRecipesTab();
+renderCookDay();
+if(Object.keys(weekPlanChoices).length) document.getElementById('freshReminder').style.display='flex';
 if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(()=>{});}
 </script>
 </body>
