@@ -204,10 +204,7 @@ body{font-family:'Heebo',sans-serif;background:var(--bg);color:var(--text);min-h
     <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
     תפריט
   </button>
-  <button class="nav-btn" id="nav-cookday" onclick="showTab('cookday',this)">
-    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-    בישול
-  </button>
+
   <button class="nav-btn" id="nav-recipes" onclick="showTab('recipes',this);renderRecipesTab()">
     <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
     מתכונים
@@ -332,13 +329,13 @@ const SIDES=[
   {name:'בצל סגול מותסס',keep:'נשמר שבועיים במקרר',desc:'חמוץ-מתוק, יפה וחי. מוסיף עומק לכל ארוחה.',uses:['על חביתות','לסלטים','על קרקרים עם גבינה'],pantryKeys:['בצל סגול','חומץ תפוחים'],ingredients:[['בצל סגול','2 גדולים'],['חומץ תפוחים','חצי כוס'],['מים','חצי כוס'],['מלח','כפית']],steps:['פורסים בצל דק מאוד.','מחממים חומץ, מים ומלח עד מסיסות. מצננים.','שופכים על הבצל בצנצנת. ממתינים שעה מינימום.'],tip:'כבר אחרי שעה ורוד ומוכן. אחרי לילה — הכי טוב.'},
   {name:'קרוטוני שעועית/חומוס',keep:'נשמר 3 ימים בקופסה פתוחה',desc:'שעועית או חומוס אפויים עם תבלינים — פריכים ומלאי חלבון.',uses:['על סלט','לנשנוש','עם גבינת אגוזים'],pantryKeys:['חומוס'],ingredients:[['שעועית/חומוס מבושל','כוס'],['שמן זית','כף'],['פפריקה מעושנת','חצי כפית'],['כמון','חצי כפית'],['מלח','—']],steps:['מנגבים קטניות היטב עם נייר סופג.','מערבבים עם שמן זית ותבלינים.','אופים 200° כ-20 דקות, מנערים פעמיים, עד פריכות.'],tip:'ככל שיותר יבשות לפני התנור — יותר פריכות.'},
   {name:'ממרח טופו',keep:'נשמר 5 ימים במקרר',desc:'טופו רך עם שום, שמן זית וזעתר — ממרח עשיר ומהיר.',uses:['על קרקרים','לסלטים','במקום גבינה'],pantryKeys:['טופו'],ingredients:[['טופו רך (קדיתא)','300 גרם'],['שום','שן'],['שמן זית','2 כפות'],['זעתר','כפית'],['שמרי בירה','כף'],['לימון','חצי'],['מלח','—']],steps:['שמים הכל בבלנדר.','טוחנים עד חלק לגמרי.','טועמים ומאזנים.'],tip:'אפשר להוסיף מלפפון מגורד לגרסת ציזיקי.'},
-  {name:'סלסה אדומה מותססת',cat:'מותסס',keep:'נשמר שבועות במקרר',desc:'סלסה חיה ופרוביוטית — הופכת כל ארוחה לחגיגה.',uses:['על קציצות','לתבשיל','על ירקות מאודים','ממרח'],pantryKeys:['עגבניות שרי','בצל לבן','חומץ תפוחים'],ingredients:[['עגבניות בשלות קצוצות','500 גר׳'],['בצל לבן קצוץ','100 גר׳'],['פלפלים חריפים קצוצים','2-3 יחידות'],['שיני שום כתושות','3 שיניים'],['כוסברה קצוצה','חופן'],['מלח','2% מהתכולה'],['מים במידת הצורך','100 מ"ל']],steps:['לשקול את הירקות.','ללוש אותם כקערה עם המלח — להגיר נוזלים.','להדק לתוך צנצנת. אם צריך, להוסיף מים עם תמיסת מלח 2%.','לסגור (להשתמש במשקולת).','לאחר 2-3 ימים בטמפרטורת חדר — לטעום, לאטום ולהעביר למקרר.'],tip:'מלח 2% מהמשקל הכולל. ללחוץ ירקות מתחת לנוזלים.'},
-  {name:'משחת שום-ג׳ינג׳ר-צ׳ילי',cat:'מותסס',keep:'נשמר חודשים במקרר',desc:'בסיס חריף ואנטי-דלקתי לכל תבשיל — כפית אחת מספיקה.',uses:['לתבשילים','למרקים','לממרחים','לרטבים'],pantryKeys:["ג\'ינג\'ר טרי",'שום'],ingredients:[["ג\'ינג\'ר טרי קצוץ",'100 גר׳'],['שיני שום קלופות','100 גר׳'],["פלפל צ\'ילי קצוץ",'50 גר׳'],['מלח','3% מהתכולה']],steps:['לטחון הכל במעבד מזון עד לקבלת משחה.','להוסיף מלח ולערבב.','להעביר לצנצנת ולהדק — לצמצם כיסי אוויר.','לאטום ולהשאיר יום בחוץ, אחר כך למקרר.'],tip:'3% מלח מהמשקל. כפית בכל תבשיל — מרכז טעמים.'},
+  {name:'סלסה אדומה מותססת',cat:'מותסס',keep:'נשמר שבועות במקרר',desc:'סלסה חיה ופרוביוטית — הופכת כל ארוחה לחגיגה.',uses:['על קציצות','לתבשיל','על ירקות מאודים','ממרח'],pantryKeys:['עגבניות שרי','בצל לבן','חומץ תפוחים'],ingredients:[['עגבניות בשלות קצוצות','500 גר\''],['בצל לבן קצוץ','100 גר\''],['פלפלים חריפים קצוצים','2-3 יחידות'],['שיני שום כתושות','3 שיניים'],['כוסברה קצוצה','חופן'],['מלח','2% מהתכולה'],['מים במידת הצורך','100 מ"ל']],steps:['לשקול את הירקות.','ללוש אותם כקערה עם המלח — להגיר נוזלים.','להדק לתוך צנצנת. אם צריך, להוסיף מים עם תמיסת מלח 2%.','לסגור (להשתמש במשקולת).','לאחר 2-3 ימים בטמפרטורת חדר — לטעום, לאטום ולהעביר למקרר.'],tip:'מלח 2% מהמשקל הכולל. ללחוץ ירקות מתחת לנוזלים.'},
+  {name:'משחת שום-ג\'ינג\'ר-צ\'ילי',cat:'מותסס',keep:'נשמר חודשים במקרר',desc:'בסיס חריף ואנטי-דלקתי לכל תבשיל — כפית אחת מספיקה.',uses:['לתבשילים','למרקים','לממרחים','לרטבים'],pantryKeys:["ג\'ינג\'ר טרי",'שום'],ingredients:[["ג\'ינג\'ר טרי קצוץ",'100 גר\''],['שיני שום קלופות','100 גר\''],["פלפל צ\'ילי קצוץ",'50 גר\''],['מלח','3% מהתכולה']],steps:['לטחון הכל במעבד מזון עד לקבלת משחה.','להוסיף מלח ולערבב.','להעביר לצנצנת ולהדק — לצמצם כיסי אוויר.','לאטום ולהשאיר יום בחוץ, אחר כך למקרר.'],tip:'3% מלח מהמשקל. כפית בכל תבשיל — מרכז טעמים.'},
   {name:'פלפלים קלויים מותססים',cat:'מותסס',keep:'נשמר שבועות במקרר',desc:'פלפלים קלויים וקלופים בהתססה — מתוקים, עמוקים ופרוביוטיים.',uses:['על גבינת אגוזים','לסלטים','לממרחים','עם קציצות'],pantryKeys:['בצל לבן'],ingredients:[['פלפלים קלויים וקלופים','3'],['שיני שום','3'],['מלח','2% מהתכולה']],steps:['לטחון את הפלפלים והשום בבלנדר.','לערבב את המלח ולהוציא כיסי אוויר.','להעביר לצנצנת ולהדק — להשתמש במשקולת אם צריך.','2-3 ימים בחוץ, אחר כך למקרר.'],tip:'לקלות פלפלים ישירות על הגז עד שחרות, אחר כך בשקית. מתקלפים בקלות.'},
-  {name:'מיץ כרוב-גזר-ג׳ינג׳ר',cat:'מותסס',keep:'נשמר שבועות במקרר',desc:'שתייה פרוביוטית מרעננת — טוב לעיכול ולמחסני חיידקים טובים.',uses:['שתייה','תוספת לשייק','רוטב'],pantryKeys:['כרוב לבן','גזר',"ג\'ינג\'ר טרי"],ingredients:[['כרוב אדום קצוץ','300 גר׳'],['גזר פרוס','150 גר׳'],["ג\'ינג\'ר טרי פרוס",'20-30 גר׳'],['מלח','2% מהתכולה'],['מים','—']],steps:['לערבב את הירקות והמלח, לעסות להגרת נוזלים.','להוסיף תמיסת מלח לכיסוי.','להעביר לצנצנת — לא לאטום לגמרי.','4-7 ימים בטמפרטורת חדר. לטעום ולהעביר למקרר.'],tip:'אפשר להוסיף אזוב, טימין או סומק לטעם.'},
+  {name:'מיץ כרוב-גזר-ג\'ינג\'ר',cat:'מותסס',keep:'נשמר שבועות במקרר',desc:'שתייה פרוביוטית מרעננת — טוב לעיכול ולמחסני חיידקים טובים.',uses:['שתייה','תוספת לשייק','רוטב'],pantryKeys:['כרוב לבן','גזר',"ג\'ינג\'ר טרי"],ingredients:[['כרוב אדום קצוץ','300 גר\''],['גזר פרוס','150 גר\''],["ג\'ינג\'ר טרי פרוס",'20-30 גר\''],['מלח','2% מהתכולה'],['מים','—']],steps:['לערבב את הירקות והמלח, לעסות להגרת נוזלים.','להוסיף תמיסת מלח לכיסוי.','להעביר לצנצנת — לא לאטום לגמרי.','4-7 ימים בטמפרטורת חדר. לטעום ולהעביר למקרר.'],tip:'אפשר להוסיף אזוב, טימין או סומק לטעם.'},
   {name:'ויניגרט חזרת וסלק',cat:'מותסס',keep:'נשמר שבועות במקרר',desc:'חריף, צבעוני ועוצמתי — מרכז כל צלחת.',uses:['על ירקות מאודים','לסלטים','על קציצות'],pantryKeys:['סלק'],ingredients:[['סלק','—'],['שורש חזרת','—'],['חומץ תפוחים','—'],['שמן זית','—'],['תמיסת מלח 2%','—']],steps:['לגרד את הירקות ולסגור בצנצנת עם התמיסה.','לטחון שורש חזרת עם חומץ תפוחים, שמן ודבש.','לערבב ולאחסן.'],tip:'חזרת טרי — הרבה יותר חזק מהמוכן. לגרד רק לפני שימוש.'},
   {name:'רוטב גזר-כורכום-כמון',cat:'מותסס',keep:'נשמר שבועות במקרר',desc:'רוטב ירקות מותסס — אנטי-דלקתי ומוסיף צבע זהוב לכל ארוחה.',uses:['על ירקות מאודים','לסלטים','לתבשיל'],pantryKeys:['גזר','כורכום','כמון'],ingredients:[['גזר','—'],['כורכום','—'],['זרעי כמון','—'],['תמיסת מלח 3%','—'],['שמן זית','—'],['מיץ לימון','—']],steps:['לגרד את הגזר ולסגור בצנצנת עם תמיסת מלח 3%.','2-3 ימים בחוץ.','לטחון עם שמן ומיץ לימון. להוסיף כורכום וכמון קלויים.'],tip:'לקלות כמון 2 דקות לפני — מפתח ערמון.'},
-  {name:'ממרח חרדל ביתי',cat:'מותסס',keep:'נשמר חודשים במקרר',desc:'חרדל מותסס ביתי — חריף, עמוק ובלי חומרים משמרים.',uses:['לסלטים','על קרקרים','לרטבים','עם קציצות'],pantryKeys:['חומץ תפוחים'],ingredients:[['גרגרי חרדל','50 גר׳'],['מים','100 מ"ל'],['מלח','6 גר׳ (3%)'],['שיני שום כתושות (אופציונלי)','2']],steps:['להשרות את החרדל 12 שעות.','לערבב את הגרגרים עם השום.','להעביר לצנצנת פתוחה עם בד — לערבב מדי יום.','כשמתחילה תסיסה — לאטום ולהעביר למקרר.'],tip:'אפשר לטחון חלק מהגרגרים לקבלת מרקם קרמי. לתת שבוע-שבועיים לפיתוח טעם.'},
+  {name:'ממרח חרדל ביתי',cat:'מותסס',keep:'נשמר חודשים במקרר',desc:'חרדל מותסס ביתי — חריף, עמוק ובלי חומרים משמרים.',uses:['לסלטים','על קרקרים','לרטבים','עם קציצות'],pantryKeys:['חומץ תפוחים'],ingredients:[['גרגרי חרדל','50 גר\''],['מים','100 מ"ל'],['מלח','6 גר\' (3%)'],['שיני שום כתושות (אופציונלי)','2']],steps:['להשרות את החרדל 12 שעות.','לערבב את הגרגרים עם השום.','להעביר לצנצנת פתוחה עם בד — לערבב מדי יום.','כשמתחילה תסיסה — לאטום ולהעביר למקרר.'],tip:'אפשר לטחון חלק מהגרגרים לקבלת מרקם קרמי. לתת שבוע-שבועיים לפיתוח טעם.'},
 ];
 const PANTRY_ITEMS={
   'דגנים':['אורז בסמטי מלא','אורז בר','כוסמת ירוקה','כוסמת קלויה','פריקי','קינואה (הרדוף, כרם, תבואות)','דוחן','קוסקוס מלא','אטריות סובה','פסטה כוסמין מלא','בורגול עבה','אמרנט'],
@@ -349,7 +346,6 @@ const PANTRY_ITEMS={
   'מקפיא':['פירות קפואים','אפונה (ליב)','שעועית (ליב)','ספירולינה קפואה','אסאי קפוא','תירס קפוא'],
   'ירקות טריים':['דלעת','כרוב לבן','כרוב סגול','בצל ירוק','כרישה','שום','סלרי - מקלות ושורש','שורש פטרוזיליה','פטרוזיליה','רוקט','תפוחי אדמה','בטטה','סלק','בצל לבן','בצל סגול','גזר','קולורבי','ברוקולי','קייל','מנגולד','תרד','לימון','קישוא/זוקיני','עגבניות שרי','חסה','שמיר','כוסברה','ג\'ינג\'ר טרי','שורש סלרי','גמבה','כרובית','צנונית','מנגו','אננס'],
 };
-let cookTimers={};
 let pantryChecked=JSON.parse(localStorage.getItem('pantry_v1')||'{}');
 let currentChosen=[],weekSnack='';
 let weekPlan={};
@@ -419,11 +415,12 @@ function saveWeekChoices(){ try{localStorage.setItem('week_choices',JSON.stringi
 function getItemForCat(catId){
   const name = weekPlanChoices[catId];
   if(!name) return null;
-  if(name==='steam') return SPECIAL_ITEMS.steam;
-  if(name==='grains') return SPECIAL_ITEMS.grains;
+  if(name==='steam') return Object.assign({name:'ירקות מאודים'}, SPECIAL_ITEMS.steam);
+  if(name==='grains') return Object.assign({name:'2 סוגי דגנים'}, SPECIAL_ITEMS.grains);
   if(RECIPES[name]) return RECIPES[name];
   const side = SIDES.find(s=>s.name===name);
-  return side||null;
+  if(side) return side;
+  return null;
 }
 
 function buildWeekPlan(){
@@ -483,7 +480,7 @@ function renderWeekPlan(){
           <div class="week-cat-icon">${CAT_ICONS[cat.icon]||cat.icon}</div>
           <div class="week-cat-info">
             <div class="week-cat-label">${cat.label}</div>
-            <div class="week-cat-name${chosen?'':' empty'}">${item?item.name:'לא נבחר עדיין'}</div>
+            <div class="week-cat-name${chosen?'':' empty'}">${item?(item.name||weekPlanChoices[cat.id]||''):'לא נבחר עדיין'}</div>
             ${missing.length ? `<div style="font-size:10px;color:var(--red);margin-top:2px">חסר: ${missing.join(', ')}</div>` : ''}
           </div>
           <div class="week-cat-actions">
@@ -643,129 +640,58 @@ function buildSmartSchedule(){
 }
 
 function renderCookDay(){
-  const timeline = document.getElementById('cookTimeline');
-  const startBtn = document.getElementById('startCookBtn');
+  var list=document.getElementById('cookList');
+  if(!list) return;
   if(!Object.keys(weekPlanChoices).length){
-    document.getElementById('cookTotal').textContent='בחרי מה להכין כדי לראות את תכנית הבישול';
-    if(timeline) timeline.innerHTML='';
-    if(startBtn) startBtn.style.display='none';
+    list.innerHTML='<p style="font-size:13px;color:var(--text3)">בחרי מה להכין בטאב מה מוכן השבוע</p>';
     return;
   }
-
-  const phases=buildSmartSchedule();
-  
-  // Calculate real time (parallel phases save time)
-  const parallelSavings=phases.filter(p=>p.parallel&&!p.isPrep).reduce((s,p)=>s+p.mins*0.7,0);
-  const totalSeq=phases.filter(p=>!p.isPrep).reduce((s,p)=>s+p.mins,0);
-  const realMins=Math.round(totalSeq-parallelSavings);
-
-  document.getElementById('cookTotal').textContent='';
-  const btn=document.getElementById('startCookBtn'); if(btn) btn.style.display='block';
-  
-  document.getElementById('cookTimeline').innerHTML=`
-    <div class="cook-summary">
-      <div class="cook-summary-title">סה"כ זמן בישול משוער: כ-${realMins} דקות (כ-${Math.ceil(realMins/60)} שעות)</div>
-      <div class="cook-summary-detail">💡 ${phases.filter(p=>p.parallel&&!p.isPrep).length} שלבים רצים במקביל — חוסכים זמן משמעותי</div>
-    </div>
-    <div class="cook-phases" id="cookPhases">
-      ${phases.map((p,i)=>renderPhaseCard(p,i)).join('')}
-    </div>`;
+  var ORDER=['steam','grains','stew','patties','salad','spread','snack'];
+  var LABELS={steam:'ירקות מאודים',grains:'דגנים מבושלים',stew:'תבשיל',patties:'קציצות',salad:'הכנות סלט',spread:'ממרח',snack:'נשנוש'};
+  var TIMES={steam:40,grains:20};
+  var total=0;
+  var items=ORDER.map(function(catId){
+    var name=weekPlanChoices[catId];
+    if(!name) return null;
+    var r=RECIPES[name];
+    var side=!r?SIDES.find(function(s){return s.name===name;}):null;
+    var item=r||side;
+    var mins=item&&item.time?item.time:(TIMES[catId]||20);
+    total+=mins;
+    return {catId:catId,name:name,item:item,mins:mins,label:LABELS[catId]};
+  }).filter(Boolean);
+  var real=Math.round(total*0.65);
+  var html='<div style="background:var(--green-light);border-radius:var(--radius);padding:10px 14px;margin-bottom:1rem">';
+  html+='<div style="font-size:13px;font-weight:500;color:var(--green)">זמן בישול משוער: כ-'+real+' דקות (כ-'+Math.ceil(real/60)+' שעות)</div>';
+  html+='<div style="font-size:11px;color:var(--green);margin-top:2px">ירקות מאודים + דגנים רצים במקביל</div></div>';
+  html+='<div style="display:flex;flex-direction:column;gap:8px">';
+  items.forEach(function(obj){
+    var catId=obj.catId, name=obj.name, item=obj.item, mins=obj.mins, label=obj.label;
+    var missing=item&&item.pantryKeys?item.pantryKeys.filter(function(k){return !pantryChecked[k];}):[];
+    var isSpecial=catId==='steam'||catId==='grains';
+    var displayName=isSpecial?label:name;
+    var sideIdx=!isSpecial&&!RECIPES[name]?SIDES.findIndex(function(s){return s.name===name;}):-1;
+    var dn=encodeURIComponent(name);
+    html+='<div class="cook-list-item" data-cat="'+catId+'" data-dn="'+dn+'" data-si="'+sideIdx+'" onclick="handleCookClick(this)">';
+    html+='<div style="display:flex;justify-content:space-between;align-items:center">';
+    html+='<div>';
+    html+='<div style="font-size:10px;color:var(--text3);margin-bottom:2px">'+label+'</div>';
+    html+='<div style="font-size:13px;font-weight:500">'+displayName+'</div>';
+    if(missing.length){html+='<div style="font-size:10px;color:var(--red);margin-top:2px">חסר: '+missing.join(', ')+'</div>';}
+    html+='</div>';
+    html+='<div style="font-size:11px;color:var(--green);background:var(--green-light);padding:3px 8px;border-radius:20px;white-space:nowrap">'+mins+' דקות</div>';
+    html+='</div></div>';
+  });
+  html+='</div>';
+  list.innerHTML=html;
 }
-
-function renderPhaseCard(p,i){
-  const timerState=cookTimers[p.id]||{};
-  const isDone=timerState.done;
-  const isRunning=timerState.running;
-  const isOpen=cookPhaseOpen===i;
-  const elapsed=timerState.elapsed||0;
-  const remaining=Math.max(0, p.mins*60 - elapsed);
-  const mm=String(Math.floor(remaining/60)).padStart(2,'0');
-  const ss=String(remaining%60).padStart(2,'0');
-
-  return `<div class="phase-card${isDone?' phase-done':''}${isRunning?' phase-active':''}${isOpen?' phase-open':''}" id="phase_${i}">
-    <div class="phase-header" onclick="togglePhase(${i})">
-      <div class="phase-icon">${isDone?'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>':(CAT_ICONS[p.icon]||p.icon)}</div>
-      <div class="phase-title">${p.title}${p.missing?` <span style="font-size:10px;background:var(--red-light);color:var(--red);border-radius:4px;padding:1px 5px">חסר</span>`:''}</div>
-      ${isRunning
-        ? `<div class="phase-time-badge running">${mm}:${ss}</div>`
-        : isDone
-          ? `<div class="timer-done-badge">✓ הסתיים</div>`
-          : `<div class="phase-time-badge">${p.mins} דקות</div>`
-      }
-    </div>
-    <div class="phase-body">
-      ${p.note?`<div class="parallel-note">⚡ ${p.note}</div>`:''}
-      ${p.missing?`<div class="missing-tag" style="margin-bottom:8px">חסר: ${p.missing.join(', ')}</div>`:''}
-      <ul class="phase-steps">${p.steps.map(s=>`<li class="phase-step">${s}</li>`).join('')}</ul>
-      <div class="timer-row">
-        ${p.recipeName?`<button class="timer-btn" style="background:var(--surface2);color:var(--text);border-color:var(--border2)" onclick="event.stopPropagation();openRecipeModal('${p.recipeName.replace(/'/g,"\\'")}')">פתח מתכון</button>`:p.isSide&&p.sideName?`<button class="timer-btn" style="background:var(--surface2);color:var(--text);border-color:var(--border2)" onclick="event.stopPropagation();openSideByName('${(p.sideName||'').replace(/'/g,"\\'")}')">פתח מתכון</button>`:''}
-        ${!isDone && !p.isPrep ? `<button class="timer-btn" onclick="event.stopPropagation();startTimer(${i},'${p.id}',${p.mins})">${isRunning?'עצור':'הפעל טיימר'} ${p.mins} דקות</button>` : ''}
-        ${!isDone?`<button class="timer-btn" style="background:var(--green);color:white;border-color:var(--green)" onclick="event.stopPropagation();markDone(${i},'${p.id}')">סיימתי ✓</button>`:''}
-        ${isRunning?`<div class="timer-display">${mm}:${ss}</div>`:''}
-      </div>
-    </div>
-  </div>`;
-}
-
-function togglePhase(i){
-  cookPhaseOpen = cookPhaseOpen===i ? -1 : i;
-  refreshCookDay();
-}
-
-function markDone(i,id){
-  if(cookTimers[id]?.interval) clearInterval(cookTimers[id].interval);
-  cookTimers[id]={done:true};
-  cookPhaseOpen=i+1; // auto-open next
-  refreshCookDay();
-}
-
-function startTimer(i,id,mins){
-  if(cookTimers[id]?.running){
-    clearInterval(cookTimers[id].interval);
-    cookTimers[id].running=false;
-    cookTimers[id].elapsed=cookTimers[id].elapsed||0;
-  } else {
-    const startTime=Date.now()-(cookTimers[id]?.elapsed||0)*1000;
-    const interval=setInterval(()=>{
-      const elapsed=Math.floor((Date.now()-startTime)/1000);
-      cookTimers[id]={...cookTimers[id],running:true,elapsed,interval};
-      if(elapsed>=mins*60){
-        clearInterval(interval);
-        cookTimers[id]={done:true};
-        // Vibrate if supported
-        if(navigator.vibrate) navigator.vibrate([200,100,200]);
-        refreshCookDay();
-      } else {
-        refreshTimerDisplay(i,id,mins,elapsed);
-      }
-    },1000);
-    cookTimers[id]={running:true,elapsed:cookTimers[id]?.elapsed||0,interval};
-  }
-  refreshCookDay();
-}
-
-function refreshTimerDisplay(i,id,mins,elapsed){
-  const remaining=Math.max(0,mins*60-elapsed);
-  const mm=String(Math.floor(remaining/60)).padStart(2,'0');
-  const ss=String(remaining%60).padStart(2,'0');
-  const badge=document.querySelector(`#phase_${i} .phase-time-badge`);
-  const disp=document.querySelector(`#phase_${i} .timer-display`);
-  if(badge) badge.textContent=mm+':'+ss;
-  if(disp) disp.textContent=mm+':'+ss;
-}
-
-function refreshCookDay(){
-  const phases=buildSmartSchedule();
-  const el=document.getElementById('cookPhases');
-  if(el) el.innerHTML=phases.map((p,i)=>renderPhaseCard(p,i)).join('');
-}
-
-function startCooking(){
-  cookPhaseOpen=1; // open first real phase
-  cookingStarted=true;
-  refreshCookDay();
-  document.getElementById('startCookBtn').textContent='מתבשל... 🍳';
-  document.getElementById('startCookBtn').disabled=true;
+function handleCookClick(el){
+  var catId=el.dataset.cat;
+  var name=decodeURIComponent(el.dataset.dn||'');
+  var si=parseInt(el.dataset.si||-1);
+  if(name&&RECIPES[name])openRecipeModal(name);
+  else if(si>=0)openSideModal(si);
+  else openCatItem(catId);
 }
 
 function renderPrepList(){
@@ -921,6 +847,7 @@ function clearPantry(){
 }
 renderPantry();
 renderWeekPlan();
+renderCookDay();
 renderRecipesTab();
 renderCookDay();
 if(Object.keys(weekPlanChoices).length) document.getElementById('freshReminder').style.display='flex';
