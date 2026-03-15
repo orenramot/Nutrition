@@ -161,7 +161,10 @@ body{font-family:'Heebo',sans-serif;background:var(--bg);color:var(--text);min-h
   <div id="pantry" class="section active">
     <div class="top-bar">
       <h2>המזווה שלי</h2>
-      <button class="btn" onclick="clearPantry()">אפס</button>
+      <div class="btn-row">
+        <button class="btn btn-green" onclick="selectAllPantry()">בחר הכל</button>
+        <button class="btn" onclick="clearPantry()">אפס</button>
+      </div>
     </div>
     <p style="font-size:12px;color:var(--text2);margin-bottom:.875rem">סמני מה שיש בבית — התפריט ייבנה לפי זה. נשמר אוטומטית.</p>
     <div class="pantry-grid" id="pantryGrid"></div>
@@ -416,7 +419,9 @@ function getItemForCat(catId){
   if(!name) return null;
   if(name==='steam') return SPECIAL_ITEMS.steam;
   if(name==='grains') return SPECIAL_ITEMS.grains;
-  return RECIPES[name]||null;
+  if(RECIPES[name]) return RECIPES[name];
+  const side = SIDES.find(s=>s.name===name);
+  return side||null;
 }
 
 function buildWeekPlan(){
@@ -636,10 +641,12 @@ function buildSmartSchedule(){
 }
 
 function renderCookDay(){
+  const timeline = document.getElementById('cookTimeline');
+  const startBtn = document.getElementById('startCookBtn');
   if(!Object.keys(weekPlanChoices).length){
-    document.getElementById('cookTotal').textContent='בני תפריט כדי לראות את תכנית הבישול';
-    document.getElementById('cookTimeline').innerHTML='';
-    document.getElementById('startCookBtn').style.display='none';
+    document.getElementById('cookTotal').textContent='בחרי מה להכין כדי לראות את תכנית הבישול';
+    if(timeline) timeline.innerHTML='';
+    if(startBtn) startBtn.style.display='none';
     return;
   }
 
@@ -651,7 +658,7 @@ function renderCookDay(){
   const realMins=Math.round(totalSeq-parallelSavings);
 
   document.getElementById('cookTotal').textContent='';
-  document.getElementById('startCookBtn').style.display='block';
+  if(document.getElementById('startCookBtn')) document.getElementById('startCookBtn').style.display='block';
   
   document.getElementById('cookTimeline').innerHTML=`
     <div class="cook-summary">
@@ -899,6 +906,12 @@ function togglePantry(item,id,el){
   pantryChecked[item]=el.checked;
   document.getElementById('pw_'+id).classList.toggle('checked',el.checked);
   savePantry();
+}
+function selectAllPantry(){
+  Object.entries(PANTRY_ITEMS).forEach(([cat,items])=>{
+    items.forEach(item=>{ pantryChecked[item]=true; });
+  });
+  savePantry(); renderPantry();
 }
 function clearPantry(){
   if(!confirm('לאפס את כל המזווה?'))return;
