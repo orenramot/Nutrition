@@ -436,8 +436,8 @@ function buildWeekPlan(){
   });
 
   // Spread: pick available side
-  const bestSpread = SIDES.filter(s=>(s.pantryKeys||[]).every(k=>pantryChecked[k]))[0]
-    || SIDES.sort((a,b)=>((b.pantryKeys||[]).filter(k=>pantryChecked[k]).length/(b.pantryKeys||[1]).length) - ((a.pantryKeys||[]).filter(k=>pantryChecked[k]).length/(a.pantryKeys||[1]).length))[0];
+  const bestSpread = SIDES.filter(s=>s.cat!=='מותסס'&&(s.pantryKeys||[]).every(k=>pantryChecked[k]))[0]
+    || SIDES.filter(s=>s.cat!=='מותסס').sort((a,b)=>((b.pantryKeys||[]).filter(k=>pantryChecked[k]).length/(b.pantryKeys||[1]).length) - ((a.pantryKeys||[]).filter(k=>pantryChecked[k]).length/(a.pantryKeys||[1]).length))[0];
   if(bestSpread) weekPlanChoices.spread = bestSpread.name;
 
   saveWeekChoices();
@@ -524,7 +524,7 @@ function openCatSwap(catId){
   }
 
   if(catId==='spread'){
-    options = SIDES.map((s,i)=>({
+    options = SIDES.filter(s=>s.cat!=='מותסס').map((s,i)=>({
       name: s.name,
       missing: (s.pantryKeys||[]).filter(k=>!pantryChecked[k]),
       score: (s.pantryKeys||[]).filter(k=>pantryChecked[k]).length / Math.max(1,(s.pantryKeys||[]).length),
@@ -565,6 +565,75 @@ function setCatChoice(catId, name){
 // Keep old buildWeek/resetWeek aliases for backward compat
 function buildWeek(){ buildWeekPlan(); }
 function resetWeek(){ resetWeekPlan(); }
+
+function buildSmartSchedule(){
+  const phases=[];
+
+  // Night before
+  phases.push({
+    id:'night', icon:'night', title:'יום לפני — ערב', mins:5,
+    parallel:false, isPrep:true,
+    steps:['השרייה: קטניות לתבשיל','השרייה: אגוזים לגבינה (אם מכינים)','הנבטות: מש/עדשים/כוסמת ירוקה'],
+    note:null, missing:null, recipeName:null
+  });
+
+  // Steamed veg (always first, parallel)
+  phases.push({
+    id:'steam', icon:'steam', title:'ירקות מאודים', mins:40,
+    parallel:true, isPrep:false,
+    steps:['שורשים (סלק, קולורבי, תפו"א): 40 דקות','בטטה, קישוא, כרובית: 25 דקות','ברוקולי, כרוב, שעועית ירוקה: 5 דקות'],
+    note:'מניחים לסיר — ממשיכים לשלב הבא בינתיים',
+    missing:null, recipeName:null
+  });
+
+  // Grains
+  phases.push({
+    id:'grains', icon:'grains', title:'2 סוגי דגנים', mins:20,
+    parallel:false, isPrep:false,
+    steps:['קינואה: 12 דקות במים רבים כמו פסטה. לסנן שעה.','פריקי/כוסמת: עם 2 כוסות מים, אש נמוכה 15 דקות.'],
+    note:null, missing:null, recipeName:null
+  });
+
+  // Main recipes from weekPlanChoices — sorted by time (longest first)
+  const recipePhases = [];
+  Object.entries(weekPlanChoices).forEach(([catId, name])=>{
+    if(catId==='steam'||catId==='grains') return;
+    const r = RECIPES[name];
+    if(r){
+      const m = getMissing(r);
+      recipePhases.push({
+        id:'recipe_'+catId, icon:'stew', title:name, mins:r.time||30,
+        parallel:r.time>=40, isPrep:false, recipeName:name,
+        steps:r.steps||[], missing:m.length?m:null,
+        note:r.time>=40?'אפשר להתחיל במקביל לירקות המאודים':null
+      });
+    } else {
+      // SIDES item (ממרח)
+      const side = SIDES.find(s=>s.name===name);
+      if(side){
+        recipePhases.push({
+          id:'recipe_'+catId, icon:'spread', title:name, mins:side.time||15,
+          parallel:false, isPrep:false, recipeName:null, isSide:true, sideName:name,
+          steps:side.steps||[], missing:null, note:null
+        });
+      }
+    }
+  });
+
+  // Sort: longest first
+  recipePhases.sort((a,b)=>b.mins-a.mins);
+  phases.push(...recipePhases);
+
+  // Storage
+  phases.push({
+    id:'store', icon:'store', title:'אחסון', mins:10,
+    parallel:false, isPrep:false,
+    steps:['כלי זכוכית אטומים לכל דבר','תיוג תאריך על כל קופסה','ירקות מאודים — קופסה נפרדת לכל סוג'],
+    note:null, missing:null, recipeName:null
+  });
+
+  return phases;
+}
 
 function renderCookDay(){
   if(!Object.keys(weekPlanChoices).length){
@@ -620,7 +689,7 @@ function renderPhaseCard(p,i){
       ${p.missing?`<div class="missing-tag" style="margin-bottom:8px">חסר: ${p.missing.join(', ')}</div>`:''}
       <ul class="phase-steps">${p.steps.map(s=>`<li class="phase-step">${s}</li>`).join('')}</ul>
       <div class="timer-row">
-        ${p.recipeName?`<button class="timer-btn" style="background:var(--surface2);color:var(--text);border-color:var(--border2)" onclick="event.stopPropagation();openRecipeModal('${p.recipeName.replace(/'/g,"\\'")}')">פתח מתכון</button>`:''}
+        ${p.recipeName?`<button class="timer-btn" style="background:var(--surface2);color:var(--text);border-color:var(--border2)" onclick="event.stopPropagation();openRecipeModal('${p.recipeName.replace(/'/g,"\\'")}')">פתח מתכון</button>`:p.isSide&&p.sideName?`<button class="timer-btn" style="background:var(--surface2);color:var(--text);border-color:var(--border2)" onclick="event.stopPropagation();openSideByName('${(p.sideName||'').replace(/'/g,"\\'")}')">פתח מתכון</button>`:''}
         ${!isDone && !p.isPrep ? `<button class="timer-btn" onclick="event.stopPropagation();startTimer(${i},'${p.id}',${p.mins})">${isRunning?'עצור':'הפעל טיימר'} ${p.mins} דקות</button>` : ''}
         ${!isDone?`<button class="timer-btn" style="background:var(--green);color:white;border-color:var(--green)" onclick="event.stopPropagation();markDone(${i},'${p.id}')">סיימתי ✓</button>`:''}
         ${isRunning?`<div class="timer-display">${mm}:${ss}</div>`:''}
@@ -697,7 +766,7 @@ function renderPrepList(){
   sections.push({title:'ירקות ודגנים',badge:'',tasks:['סיר אידוי שורשים — 40 דקות','בישול 2 סוגי דגנים, כוס מכל','ירקות מהירים 5–25 דקות','ירקות בתנור לפי בחירה']});
   currentChosen.forEach(r=>sections.push({title:r.name,badge:r.cat,tasks:['לאסוף מרכיבים',...r.steps]}));
   if(weekSnack)sections.push({title:'נשנוש: '+weekSnack,badge:'נשנוש',tasks:[...(RECIPES[weekSnack]?.steps||[])]});
-  const avail=SIDES.filter(s=>(s.pantryKeys||[]).every(k=>pantryChecked[k]));
+  const avail=SIDES.filter(s=>s.cat!=='מותסס'&&(s.pantryKeys||[]).every(k=>pantryChecked[k]));
   if(avail.length)sections.push({title:'הכנות בצד',badge:'בצד',isSide:true,tasks:avail.map(s=>`${s.name} — ${s.keep}`)});
   sections.push({title:'אחסון',badge:'',tasks:['כלי זכוכית אטומים','תיוג תאריך על כל קופסה','ירקות מאודים — נפרד לפי סוג']});
   document.getElementById('prepGrid').innerHTML=sections.map((s,si)=>`
