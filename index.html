@@ -349,6 +349,7 @@ const PANTRY_ITEMS={
   'מקפיא':['פירות קפואים','אפונה (ליב)','שעועית (ליב)','ספירולינה קפואה','אסאי קפוא','תירס קפוא'],
   'ירקות טריים':['דלעת','כרוב לבן','כרוב סגול','בצל ירוק','כרישה','שום','סלרי - מקלות ושורש','שורש פטרוזיליה','פטרוזיליה','רוקט','תפוחי אדמה','בטטה','סלק','בצל לבן','בצל סגול','גזר','קולורבי','ברוקולי','קייל','מנגולד','תרד','לימון','קישוא/זוקיני','עגבניות שרי','חסה','שמיר','כוסברה','ג\'ינג\'ר טרי','שורש סלרי','גמבה','כרובית','צנונית','מנגו','אננס'],
 };
+let cookTimers={};
 let pantryChecked=JSON.parse(localStorage.getItem('pantry_v1')||'{}');
 let currentChosen=[],weekSnack='';
 let weekPlan={};
@@ -675,7 +676,6 @@ function renderPhaseCard(p,i){
   const timerState=cookTimers[p.id]||{};
   const isDone=timerState.done;
   const isRunning=timerState.running;
-let cookTimers={};
   const isOpen=cookPhaseOpen===i;
   const elapsed=timerState.elapsed||0;
   const remaining=Math.max(0, p.mins*60 - elapsed);
