@@ -1,4 +1,4 @@
-const CACHE = 'laakol-v3';
+const CACHE = 'laakol-v5';
 
 self.addEventListener('install', e => {
   self.skipWaiting();
@@ -14,7 +14,6 @@ self.addEventListener('activate', e => {
 });
 
 self.addEventListener('fetch', e => {
-  // Network first — תמיד מביא גרסה עדכנית מהרשת
   e.respondWith(
     fetch(e.request)
       .then(res => {

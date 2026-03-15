@@ -351,9 +351,8 @@ const PANTRY_ITEMS={
 };
 let pantryChecked=JSON.parse(localStorage.getItem('pantry_v1')||'{}');
 let currentChosen=[],weekSnack='';
-let savedWeek=JSON.parse(localStorage.getItem('week_plan')||'null');
-let weekPlan=savedWeek||{};
-function saveWeek(){try{localStorage.setItem('week_plan',JSON.stringify(weekPlan));}catch(e){}}
+let weekPlan={};
+function saveWeek(){} // week saved via saveWeekChoices
 let recentHistory=JSON.parse(localStorage.getItem('recent_history')||'[]');
 let activeRecipeFilter='הכל';
 function savePantry(){try{localStorage.setItem('pantry_v1',JSON.stringify(pantryChecked));}catch(e){}}
@@ -658,7 +657,7 @@ function renderCookDay(){
   const realMins=Math.round(totalSeq-parallelSavings);
 
   document.getElementById('cookTotal').textContent='';
-  if(document.getElementById('startCookBtn')) document.getElementById('startCookBtn').style.display='block';
+  const btn=document.getElementById('startCookBtn'); if(btn) btn.style.display='block';
   
   document.getElementById('cookTimeline').innerHTML=`
     <div class="cook-summary">
@@ -889,7 +888,7 @@ function assignMeal(day,meal,name){
   closeModal();
   const used=[...new Set(Object.values(weekPlan).flatMap(d=>Object.values(d)))];
   currentChosen=used.map(n=>({name:n,...RECIPES[n],score:recipeScore(RECIPES[n])})).filter(r=>r.cat&&r.cat!=='נשנוש');
-  saveWeek();renderWeek();renderCookDay();renderPrepList();
+  renderWeek();renderCookDay();renderPrepList();
 }
 function closeModal(){document.getElementById('modal').style.display='none';}
 function renderPantry(){
