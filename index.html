@@ -923,7 +923,8 @@ renderWeekPlan();
 renderRecipesTab();
 renderCookDay();
 if(Object.keys(weekPlanChoices).length) document.getElementById('freshReminder').style.display='flex';
-if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(()=>{});}
+// unregister any old service worker
+if('serviceWorker' in navigator){navigator.serviceWorker.getRegistrations().then(regs=>{for(let r of regs)r.unregister();});}
 </script>
 </body>
 </html>
